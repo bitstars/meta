@@ -1,6 +1,7 @@
 package de.russcity.meta.model;
 
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONObject;
 
@@ -23,6 +24,8 @@ public class MetaModel {
 	private List<String> FIELDS_TRANSIENT;
 	private List<String> FIELDS_PRIVATE;
 	private List<String> FIELDS_PUBLIC;
+
+	private List<Map<String, String>> FIELDS_REGEX;
 
 	private List<MetaComplexModel> FIELDS_COMPLEX;
 
@@ -162,6 +165,14 @@ public class MetaModel {
 
 	public JSONObject toJSON() {
 		return new JSONObject(new Gson().toJson(this));
+	}
+
+	public List<Map<String, String>> getFIELDS_REGEX() {
+		return FIELDS_REGEX;
+	}
+
+	public void setFIELDS_REGEX(List<Map<String, String>> fIELDS_REGEX) {
+		FIELDS_REGEX = fIELDS_REGEX;
 	}
 
 }

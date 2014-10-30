@@ -116,7 +116,7 @@ public class MetaParser {
 									((Class<?>) ((ParameterizedType) field
 											.getGenericType())
 											.getActualTypeArguments()[0]),
-											field.getName(), true);
+									field.getName(), true);
 
 							if (!cc.isInterface()) {
 								complexeClasses.add(cc);
@@ -132,7 +132,7 @@ public class MetaParser {
 					if (field.isAnnotationPresent(MetaAttr.class)) {
 						MetaAttr attr = field.getAnnotation(MetaAttr.class);
 						if (!attr.regex().equals("")) {
-							result.accumulate(
+							result = appendAsArray(result,
 									MetaJSONTranslator.FIELDS_REGEX_STR,
 									new JSONObject().accumulate(
 											field.getName(), attr.regex()));
@@ -160,13 +160,13 @@ public class MetaParser {
 							result,
 							MetaJSONTranslator.FIELDS_COMPLEX_STR,
 							(new JSONObject()
-									.put(MetaJSONTranslator.ATTRIBUTE_NAME_STR,
-											cClass.fieldName)
+							.put(MetaJSONTranslator.ATTRIBUTE_NAME_STR,
+									cClass.fieldName)
 									.put(MetaJSONTranslator.ATTRIBUTE_TYPE_STR,
 											(cClass.collection ? MetaJSONTranslator.ATTRIBUTE_TYPE_COLLECTION_STR
 													: MetaJSONTranslator.ATTRIBUTE_TYPE_SINGLE_STR))
-									.put(MetaJSONTranslator.META_DATA_STR,
-											getMeta(cClass.clazz))));
+													.put(MetaJSONTranslator.META_DATA_STR,
+															getMeta(cClass.clazz))));
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
