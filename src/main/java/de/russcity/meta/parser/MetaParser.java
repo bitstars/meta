@@ -16,8 +16,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.google.gson.Gson;
+
 import de.russcity.meta.annotation.MetaAttr;
 import de.russcity.meta.annotation.MetaJSONTranslator;
+import de.russcity.meta.model.MetaModel;
 
 public class MetaParser {
 
@@ -28,9 +31,21 @@ public class MetaParser {
 	 *            to get meta
 	 * @return meta model as JSONObject
 	 */
-	public JSONObject getMeta(Object object) {
+	public JSONObject getMetaAsJSON(Object object) {
 		Class<? extends Object> clazz = object.getClass();
 		return getMeta(clazz);
+	}
+
+	/**
+	 * Determines the meta model of given object including all inner classes
+	 *
+	 * @param object
+	 *            to get meta
+	 * @return meta model as MetaModel.java
+	 */
+	public MetaModel getMetaAsObject(Object object) {
+		Class<? extends Object> clazz = object.getClass();
+		return new Gson().fromJson(getMeta(clazz).toString(), MetaModel.class);
 	}
 
 	/**

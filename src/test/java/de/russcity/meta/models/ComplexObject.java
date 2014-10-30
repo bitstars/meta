@@ -4,6 +4,13 @@ import java.util.LinkedList;
 
 import de.russcity.meta.annotation.MetaAttr;
 
+/**
+ * Important! Do not edit this class any more. It is used for JUnit test.
+ * Editing of this class can destroy the tests cases
+ * 
+ * @author RU$$
+ *
+ */
 public class ComplexObject {
 	@MetaAttr(type = MetaAttr.TYPE_ID)
 	public int id;

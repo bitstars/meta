@@ -161,7 +161,7 @@ public class DataParser {
 		if (includeMeta && hasData) {
 			try {
 				result.put(MetaJSONTranslator.META_DATA_STR,
-						new MetaParser().getMeta(lastObject));
+						new MetaParser().getMetaAsJSON(lastObject));
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -186,7 +186,7 @@ public class DataParser {
 			// add meta data to the all data if needed
 			if (includeMeta) {
 				result.put(MetaJSONTranslator.META_DATA_STR,
-						new MetaParser().getMeta(singleData));
+						new MetaParser().getMetaAsJSON(singleData));
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -205,7 +205,7 @@ public class DataParser {
 			// add meta data to the all data if needed
 			if (includeMeta) {
 				result.put(MetaJSONTranslator.META_DATA_STR,
-						new MetaParser().getMeta(singleData));
+						new MetaParser().getMetaAsJSON(singleData));
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();

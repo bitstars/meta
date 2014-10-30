@@ -40,7 +40,7 @@ public class MetaValidator {
 			throws JSONException {
 
 		Gson gson = new Gson();
-		JSONObject meta = new MetaParser().getMeta(oOld);
+		JSONObject meta = new MetaParser().getMetaAsJSON(oOld);
 		JSONObject oOldJSON = null;
 		if (oOld != null) {
 			oOldJSON = new JSONObject(gson.toJson(oOld));
@@ -67,7 +67,7 @@ public class MetaValidator {
 	public JSONObject updateObject(Object oOld, Object oNew)
 			throws JSONException {
 		Gson gson = new Gson();
-		JSONObject meta = new MetaParser().getMeta(oOld);
+		JSONObject meta = new MetaParser().getMetaAsJSON(oOld);
 		JSONObject oOldJSON = null;
 		if (oOld != null) {
 			oOldJSON = new JSONObject(gson.toJson(oOld));
