@@ -17,7 +17,7 @@ import java.lang.annotation.Target;
  *
  * </li>
  * </ul>
- * 
+ *
  * @author Ruslan
  *
  */
@@ -32,12 +32,12 @@ public @interface MetaAttr {
 	public static final int TYPE_SKIP_META = 1 << 3;
 
 	// Field descriptors
-	public static final int FIELDS_READ_ONLY = 1 << 4;
-	public static final int FIELDS_UNIQ_IN_SCOPE = 1 << 5;
-	public static final int FIELDS_TRANSIENT = 1 << 6;
-	public static final int FIELDS_PRIVATE = 1 << 7;
-	public static final int FIELDS_PUBLIC = 1 << 8;
-	public static final int FIELDS_NOT_NULL = 1 << 9;
+	public static final int FIELDS_READ_ONLY = 1 << 10;
+	public static final int FIELDS_UNIQ_IN_SCOPE = 1 << 11;
+	public static final int FIELDS_TRANSIENT = 1 << 12;
+	public static final int FIELDS_PRIVATE = 1 << 13;
+	public static final int FIELDS_PUBLIC = 1 << 14;
+	public static final int FIELDS_NOT_NULL = 1 << 15;
 
 	public String regex() default "";
 

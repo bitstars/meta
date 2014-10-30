@@ -91,7 +91,8 @@ public class MetaValidator {
 	public boolean validateUpdateObject(String oOld, String oNew,
 			boolean tryUpdate) throws JSONException {
 		JSONObject oOldJSON = new JSONObject(oOld);
-		JSONObject meta = oOldJSON.getJSONObject(MetaJSONTranslator.META_DATA_STR);
+		JSONObject meta = oOldJSON
+				.getJSONObject(MetaJSONTranslator.META_DATA_STR);
 		JSONObject oOldDataJSON = oOldJSON.getJSONArray(DataParser.ALL_DB_DATA)
 				.getJSONObject(0);
 		JSONObject oNewJSON = new JSONObject(oNew);
@@ -118,7 +119,8 @@ public class MetaValidator {
 	public JSONObject updateObject(String oOld, String oNew, boolean tryUpdate)
 			throws JSONException {
 		JSONObject oOldJSON = new JSONObject(oOld);
-		JSONObject meta = oOldJSON.getJSONObject(MetaJSONTranslator.META_DATA_STR);
+		JSONObject meta = oOldJSON
+				.getJSONObject(MetaJSONTranslator.META_DATA_STR);
 		JSONObject oOldDataJSON;
 		if (oOldJSON.isNull(DataParser.ALL_DB_DATA)) {
 			oOldDataJSON = oOldJSON.getJSONObject(DataParser.SINGLE_DB_DATA);
@@ -166,9 +168,9 @@ public class MetaValidator {
 			if (!allFields.contains(field)) {
 				if (doUpdate) {
 					showWarningMsg(new MetaMsg()
-					.warning()
-					.causedByRule(
-							"Was not in allFields! Removed from new object!")
+							.warning()
+							.causedByRule(
+									"Was not in allFields! Removed from new object!")
 							.causedByField(field)
 							.msgDev("allFields: " + allFields).create());
 					toBeDeleted.add(field);
@@ -183,14 +185,14 @@ public class MetaValidator {
 			if (transientFields.contains(field)) {
 				if (doUpdate) {
 					showWarningMsg(new MetaMsg()
-					.warning()
-					.causedByRule(
-							"Should be invisible! Will be overwritten by old object!")
+							.warning()
+							.causedByRule(
+									"Should be invisible! Will be overwritten by old object!")
 							.causedByField(field)
 							.msgDev("from ." + oNewJSON.get(field) + ". to ."
 									+ oOldJSON.get(field)
 									+ ". transientfields: " + transientFields)
-									.create());
+							.create());
 					toBeDeleted.add(field);
 					// oNewJSON.accumulate(field, oOldJSON.get(field));
 				} else {
@@ -229,9 +231,9 @@ public class MetaValidator {
 						if (!str1.equals(str2)) {
 							if (doUpdate) {
 								showWarningMsg(new MetaMsg()
-								.warning()
-								.causedByRule(
-										"Read only field was modified! Will be overwritten by old object!")
+										.warning()
+										.causedByRule(
+												"Read only field was modified! Will be overwritten by old object!")
 										.causedByField(readOnlyField)
 										.msgDev("from ."
 												+ oOldJSON.get(readOnlyField)
@@ -244,9 +246,9 @@ public class MetaValidator {
 
 							} else {
 								showErrorMsg(new MetaMsg()
-								.error()
-								.causedByRule(
-										"Read only field was modified!")
+										.error()
+										.causedByRule(
+												"Read only field was modified!")
 										.causedByField(readOnlyField)
 										.msgDev("from ."
 												+ oOldJSON.get(readOnlyField)
@@ -260,9 +262,9 @@ public class MetaValidator {
 					} else {
 						if (doUpdate) {
 							showWarningMsg(new MetaMsg()
-							.warning()
-							.causedByRule(
-									"Read only field was modified! Will be overwritten by old object!")
+									.warning()
+									.causedByRule(
+											"Read only field was modified! Will be overwritten by old object!")
 									.causedByField(readOnlyField)
 									.msgDev("from ."
 											+ oOldJSON.get(readOnlyField)
@@ -272,9 +274,9 @@ public class MetaValidator {
 
 						} else {
 							showErrorMsg(new MetaMsg()
-							.error()
-							.causedByRule(
-									"Read only field was modified!")
+									.error()
+									.causedByRule(
+											"Read only field was modified!")
 									.causedByField(readOnlyField)
 									.msgDev("from ."
 											+ oOldJSON.get(readOnlyField)
@@ -286,23 +288,23 @@ public class MetaValidator {
 					if (!oNewJSON.isNull(readOnlyField)) {
 						if (doUpdate) {
 							showErrorMsg(new MetaMsg()
-							.error()
-							.causedByRule(
-									"Read only field was modified! Will be overwritten by value of old object!")
+									.error()
+									.causedByRule(
+											"Read only field was modified! Will be overwritten by value of old object!")
 									.causedByField(readOnlyField)
 									.msgDev("from .null. to ."
 											+ oNewJSON.get(readOnlyField) + ".")
-											.create());
+									.create());
 							oNewJSON.remove(readOnlyField);
 						} else {
 							showErrorMsg(new MetaMsg()
-							.error()
-							.causedByRule(
-									"Read only field was modified!")
+									.error()
+									.causedByRule(
+											"Read only field was modified!")
 									.causedByField(readOnlyField)
 									.msgDev("from .null. to ."
 											+ oNewJSON.get(readOnlyField) + ".")
-											.create());
+									.create());
 							return null;
 						}
 					}
@@ -328,9 +330,9 @@ public class MetaValidator {
 				String str2 = oNewJSON.getString(typeId.get(0));
 				if (!str1.equals(str2)) {
 					showErrorMsg(new MetaMsg()
-					.error()
-					.causedByRule(
-							"ID field was different from old object")
+							.error()
+							.causedByRule(
+									"ID field was different from old object")
 							.causedByField(typeId.get(0))
 							.msgDev("was ." + str1 + ". now ." + str2 + ".")
 							.create());
@@ -403,9 +405,9 @@ public class MetaValidator {
 			if (!oNewJSON.isNull(key)) {
 				JSONObject newMeta = new JSONObject();
 				if (!field.getJSONObject(key).isNull(
-						MetaJSONTranslator.COMPLEX_MULTIPLE_DATA_STR)) {
+						MetaJSONTranslator.ATTRIBUTE_TYPE_COLLECTION_STR)) {
 					newMeta = field.getJSONObject(key).getJSONObject(
-							MetaJSONTranslator.COMPLEX_MULTIPLE_DATA_STR);
+							MetaJSONTranslator.ATTRIBUTE_TYPE_COLLECTION_STR);
 					// this is a collection of objects
 					JSONArray arrayOld = null;
 					if (oOldJSON != null) {
@@ -431,9 +433,9 @@ public class MetaValidator {
 						}
 					}
 				} else if (!field.getJSONObject(key).isNull(
-						MetaJSONTranslator.COMPLEX_SINGLE_DATA_STR)) {
+						MetaJSONTranslator.ATTRIBUTE_TYPE_SINGLE_STR)) {
 					newMeta = field.getJSONObject(key).getJSONObject(
-							MetaJSONTranslator.COMPLEX_SINGLE_DATA_STR);
+							MetaJSONTranslator.ATTRIBUTE_TYPE_SINGLE_STR);
 					// this is only one object
 					JSONObject oldObject = null;
 					if (oOldJSON != null) {
@@ -482,11 +484,11 @@ public class MetaValidator {
 				String regex = oo.getString(field);
 				if (!checkRegex(value, regex)) {
 					showErrorMsg(new MetaMsg()
-					.error()
-					.causedByRule("Does not match its regex")
-					.causedByField(field)
-					.msgDev("Value ." + value + ". does not match ."
-							+ regex + ". pattern").create());
+							.error()
+							.causedByRule("Does not match its regex")
+							.causedByField(field)
+							.msgDev("Value ." + value + ". does not match ."
+									+ regex + ". pattern").create());
 					return false;
 				}
 			}

@@ -34,9 +34,9 @@ public class MetaParser {
 	}
 
 	/**
-	 * Determines the meta model of given object including all inner classes
+	 * Determines the meta model of given class including all inner classes
 	 *
-	 * @param object
+	 * @param clazz
 	 *            to get meta
 	 * @return meta model as JSONObject
 	 */
@@ -61,7 +61,12 @@ public class MetaParser {
 				if (!field.isAnnotationPresent(MetaAttr.class)
 						|| (field.getAnnotation(MetaAttr.class).type() & MetaAttr.TYPE_SKIP_META) == 0) {
 					// Scan just those types that are shouldn't be skipped
-					allFields.add(field);
+					// Also check if some attributes of superclass where hidden
+					// by attributes of subclass. Do not consider these
+					// attributes
+					if (notContainName(allFields, field)) {
+						allFields.add(field);
+					}
 				}
 			}
 			clazz = clazz.getSuperclass();
@@ -136,24 +141,33 @@ public class MetaParser {
 		if (complexeClasses.size() != 0) {
 			for (ComplexClass cClass : complexeClasses) {
 				try {
-					result = myAppend(
+					result = appendAsArray(
 							result,
 							MetaJSONTranslator.FIELDS_COMPLEX_STR,
-							new JSONObject()
-									.accumulate(
-											cClass.fieldName,
-											new JSONObject()
-													.accumulate(
-															cClass.collection ? MetaJSONTranslator.COMPLEX_MULTIPLE_DATA_STR
-																	: MetaJSONTranslator.COMPLEX_SINGLE_DATA_STR,
-															getMeta(cClass.clazz))));
+							(new JSONObject()
+									.put(MetaJSONTranslator.ATTRIBUTE_NAME_STR,
+											cClass.fieldName)
+									.put(MetaJSONTranslator.ATTRIBUTE_TYPE_STR,
+											(cClass.collection ? MetaJSONTranslator.ATTRIBUTE_TYPE_COLLECTION_STR
+													: MetaJSONTranslator.ATTRIBUTE_TYPE_SINGLE_STR))
+									.put(MetaJSONTranslator.META_DATA_STR,
+											getMeta(cClass.clazz))));
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
 			}
 		}
 
-		return new JSONObject().put(MetaJSONTranslator.META_DATA_STR, result);
+		return result;
+	}
+
+	private boolean notContainName(List<Field> allFields, Field field) {
+		for (Field fieldExist : allFields) {
+			if (fieldExist.getName().equals(field.getName())) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	private static boolean isCollection(Class<?> clazzTest) {
@@ -218,7 +232,7 @@ public class MetaParser {
 
 	private class ComplexClass {
 		Object object;
-		Class<?> clazz;
+		public Class<?> clazz;
 		String fieldName;
 		boolean collection;
 
@@ -260,49 +274,26 @@ public class MetaParser {
 		int[] allAttrs = MetaJSONTranslator.allAttrs;
 
 		for (int attr : allAttrs) {
-			if ((types & attr) != 0) {
+			if (((types & attr) != 0) && ((types & MetaAttr.TYPE_ID) == 0)) {
+				// append attribute names in an array, also if there only one
+				// member
 				try {
-					jsonObject = myAppend(jsonObject, translateType(attr),
-							fieldName);
+					jsonObject = appendAsArray(jsonObject,
+							MetaJSONTranslator.translateType(attr), fieldName);
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
+			} else if (((types & attr) != 0)
+					&& ((attr & MetaAttr.TYPE_ID) != 0)) {
+				// put attribute, without creating an array, because id field
+				// can be only one
+				jsonObject.put(MetaJSONTranslator.translateType(attr),
+						fieldName);
+
 			}
 		}
 
 		return jsonObject;
-	}
-
-	/**
-	 * Translates an integer attribute to its string representation. Important!:
-	 * this method should be updated if there are new types added in
-	 * ADMetaAttribute
-	 *
-	 * @param type
-	 *            - defined in CDMetaAttribute
-	 * @return its string representation, defined in CDMetaParser
-	 */
-	public String translateType(int type) {
-		switch (type) {
-		case MetaAttr.FIELDS_READ_ONLY:
-			return MetaJSONTranslator.FIELDS_READ_ONLY_STR;
-		case MetaAttr.FIELDS_UNIQ_IN_SCOPE:
-			return MetaJSONTranslator.FIELDS_UNIQ_IN_SCOPE_STR;
-		case MetaAttr.FIELDS_TRANSIENT:
-			return MetaJSONTranslator.FIELDS_TRANSIENT_STR;
-		case MetaAttr.TYPE_DATE_LONG:
-			return MetaJSONTranslator.TYPE_DATE_LONG_STR;
-		case MetaAttr.TYPE_ID:
-			return MetaJSONTranslator.TYPE_ID_STR;
-		case MetaAttr.TYPE_URL_IMAGE:
-			return MetaJSONTranslator.TYPE_URL_IMAGE_STR;
-		case MetaAttr.FIELDS_PRIVATE:
-			return MetaJSONTranslator.FIELDS_PRIVATE_STR;
-		case MetaAttr.FIELDS_PUBLIC:
-			return MetaJSONTranslator.FIELDS_PUBLIC_STR;
-		default:
-			return "unknownType";
-		}
 	}
 
 	/**
@@ -367,7 +358,7 @@ public class MetaParser {
 	 * @return
 	 * @throws JSONException
 	 */
-	public static JSONObject myAppend(JSONObject root, String field,
+	public static JSONObject appendAsArray(JSONObject root, String field,
 			Object toBeAppend) throws JSONException {
 		if (root.isNull(field)) {
 			root.put(field, new JSONArray().put(toBeAppend));
@@ -387,18 +378,18 @@ public class MetaParser {
 					JSONObject subComplex = complexArray.getJSONObject(i);
 					if (!subComplex.isNull(complexField)) {
 						if (!subComplex.getJSONObject(complexField).isNull(
-								MetaJSONTranslator.COMPLEX_SINGLE_DATA_STR)) {
+								MetaJSONTranslator.ATTRIBUTE_TYPE_SINGLE_STR)) {
 							return subComplex
 									.getJSONObject(complexField)
 									.getJSONObject(
-											MetaJSONTranslator.COMPLEX_SINGLE_DATA_STR);
+											MetaJSONTranslator.ATTRIBUTE_TYPE_SINGLE_STR);
 						} else if (!subComplex
 								.getJSONObject(complexField)
-								.isNull(MetaJSONTranslator.COMPLEX_MULTIPLE_DATA_STR)) {
+								.isNull(MetaJSONTranslator.ATTRIBUTE_TYPE_COLLECTION_STR)) {
 							return subComplex
 									.getJSONObject(complexField)
 									.getJSONObject(
-											MetaJSONTranslator.COMPLEX_MULTIPLE_DATA_STR);
+											MetaJSONTranslator.ATTRIBUTE_TYPE_COLLECTION_STR);
 						}
 					}
 				}

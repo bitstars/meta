@@ -2,16 +2,16 @@
 <testng-results skipped="0" failed="0" total="2" passed="2">
   <reporter-output>
   </reporter-output>
-  <suite name="de.russcity.meta.MetaParserTest" duration-ms="30" started-at="2014-10-29T15:39:58Z" finished-at="2014-10-29T15:39:58Z">
+  <suite name="de.russcity.meta.MetaParserTest" duration-ms="96" started-at="2014-10-30T09:15:48Z" finished-at="2014-10-30T09:15:48Z">
     <groups>
     </groups>
-    <test name="Command line test" duration-ms="30" started-at="2014-10-29T15:39:58Z" finished-at="2014-10-29T15:39:58Z">
+    <test name="Command line test" duration-ms="96" started-at="2014-10-30T09:15:48Z" finished-at="2014-10-30T09:15:48Z">
       <class name="de.russcity.meta.MetaParserTest">
-        <test-method status="PASS" signature="complextObjectTest()[pri:0, instance:de.russcity.meta.MetaParserTest@187a8e0]" name="complextObjectTest" duration-ms="20" started-at="2014-10-29T16:39:58Z" finished-at="2014-10-29T16:39:58Z">
+        <test-method status="PASS" signature="complextObjectTest()[pri:0, instance:de.russcity.meta.MetaParserTest@131767b]" name="complextObjectTest" duration-ms="63" started-at="2014-10-30T10:15:48Z" finished-at="2014-10-30T10:15:48Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- complextObjectTest -->
-        <test-method status="PASS" signature="simpleObjectTest()[pri:0, instance:de.russcity.meta.MetaParserTest@187a8e0]" name="simpleObjectTest" duration-ms="0" started-at="2014-10-29T16:39:58Z" finished-at="2014-10-29T16:39:58Z">
+        <test-method status="PASS" signature="simpleObjectTest()[pri:0, instance:de.russcity.meta.MetaParserTest@131767b]" name="simpleObjectTest" duration-ms="11" started-at="2014-10-30T10:15:48Z" finished-at="2014-10-30T10:15:48Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- simpleObjectTest -->
