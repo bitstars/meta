@@ -1,5 +1,6 @@
-package com.bitstars.meta.model;
+package com.bitstars.meta.models;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -29,10 +30,37 @@ public class MetaModel {
 
 	private List<MetaComplexModel> FIELDS_COMPLEX;
 
-	class MetaComplexModel {
+	public MetaModel() {
+		CLASS_NAME = "";
+		TYPE_ID = "";
+		TYPE_URL_IMAGE = new ArrayList<String>();
+		TYPE_DATE_LONG = new ArrayList<String>();
+		TYPE_SKIP_META = new ArrayList<String>();
+
+		FIELDS_ALL = new ArrayList<String>();
+		FIELDS_READ_ONLY = new ArrayList<String>();
+		FIELDS_UNIQ_IN_SCOPE = new ArrayList<String>();
+		FIELDS_NOT_NULL = new ArrayList<String>();
+
+		FIELDS_TRANSIENT = new ArrayList<String>();
+		FIELDS_PRIVATE = new ArrayList<String>();
+		FIELDS_PUBLIC = new ArrayList<String>();
+
+		FIELDS_REGEX = new ArrayList<Map<String, String>>();
+
+		FIELDS_COMPLEX = new ArrayList<MetaModel.MetaComplexModel>();
+	}
+
+	public class MetaComplexModel {
 		private String ATTRIBUTE_NAME;
 		private String ATTRIBUTE_TYPE;
 		private MetaModel META_DATA;
+
+		public MetaComplexModel() {
+			ATTRIBUTE_NAME = "";
+			ATTRIBUTE_TYPE = "";
+			META_DATA = new MetaModel();
+		}
 
 		public String getATTRIBUTE_NAME() {
 			return ATTRIBUTE_NAME;

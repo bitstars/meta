@@ -5,8 +5,8 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.bitstars.meta.annotation.MetaJSONTranslator;
-import com.bitstars.meta.model.MetaModel;
 import com.bitstars.meta.models.ComplexObject;
+import com.bitstars.meta.models.MetaModel;
 import com.bitstars.meta.models.SimpleObject;
 import com.bitstars.meta.models.SubClassOfSimpleObject;
 import com.bitstars.meta.parsers.MetaParser;
@@ -225,7 +225,7 @@ public class MetaParserTest {
 				"Private fields of ComplexObject was not right parsed!");
 
 		// check complex attributes
-		Assert.assertNull(mo.getFIELDS_COMPLEX(),
+		Assert.assertTrue(mo.getFIELDS_COMPLEX().size() == 0,
 				"Complex fields of ComplexObject was not right parsed!");
 
 		// check regex attributes

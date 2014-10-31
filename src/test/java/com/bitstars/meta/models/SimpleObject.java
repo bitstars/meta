@@ -11,7 +11,7 @@ import com.bitstars.meta.annotation.MetaAttr;
  */
 public class SimpleObject {
 
-	@MetaAttr(type = MetaAttr.TYPE_ID)
+	@MetaAttr(type = MetaAttr.TYPE_ID + MetaAttr.FIELDS_NOT_NULL)
 	private Long id;
 
 	@MetaAttr(type = MetaAttr.FIELDS_PUBLIC)

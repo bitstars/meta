@@ -18,7 +18,7 @@ import org.json.JSONObject;
 
 import com.bitstars.meta.annotation.MetaAttr;
 import com.bitstars.meta.annotation.MetaJSONTranslator;
-import com.bitstars.meta.model.MetaModel;
+import com.bitstars.meta.models.MetaModel;
 import com.google.gson.Gson;
 
 public class MetaParser {
@@ -128,7 +128,7 @@ public class MetaParser {
 									((Class<?>) ((ParameterizedType) field
 											.getGenericType())
 											.getActualTypeArguments()[0]),
-									field.getName(), true);
+											field.getName(), true);
 
 							if (!cc.isInterface()) {
 								complexeClasses.add(cc);
@@ -172,13 +172,13 @@ public class MetaParser {
 							result,
 							MetaJSONTranslator.FIELDS_COMPLEX_STR,
 							(new JSONObject()
-							.put(MetaJSONTranslator.ATTRIBUTE_NAME_STR,
-									cClass.fieldName)
+									.put(MetaJSONTranslator.ATTRIBUTE_NAME_STR,
+											cClass.fieldName)
 									.put(MetaJSONTranslator.ATTRIBUTE_TYPE_STR,
 											(cClass.collection ? MetaJSONTranslator.ATTRIBUTE_TYPE_COLLECTION_STR
 													: MetaJSONTranslator.ATTRIBUTE_TYPE_SINGLE_STR))
-													.put(MetaJSONTranslator.META_DATA_STR,
-															getMetaAsJSON(cClass.clazz))));
+									.put(MetaJSONTranslator.META_DATA_STR,
+											getMetaAsJSON(cClass.clazz))));
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
@@ -301,7 +301,7 @@ public class MetaParser {
 		int[] allAttrs = MetaJSONTranslator.allAttrs;
 
 		for (int attr : allAttrs) {
-			if (((types & attr) != 0) && ((types & MetaAttr.TYPE_ID) == 0)) {
+			if (((types & attr) != 0) && ((attr & MetaAttr.TYPE_ID) == 0)) {
 				// append attribute names in an array, also if there only one
 				// member
 				try {
@@ -312,12 +312,12 @@ public class MetaParser {
 				}
 			} else if (((types & attr) != 0)
 					&& ((attr & MetaAttr.TYPE_ID) != 0)) {
-				// put attribute, without creating an array, because id field
-				// can be only one
-				jsonObject.put(MetaJSONTranslator.translateType(attr),
-						fieldName);
+					// put attribute, without creating an array, because id field
+					// can be only one
+					jsonObject.put(MetaJSONTranslator.translateType(attr),
+							fieldName);
 
-			}
+				}
 		}
 
 		return jsonObject;
