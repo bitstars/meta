@@ -10,7 +10,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.bitstars.meta.annotation.MetaJSONTranslator;
-import com.bitstars.meta.parser.MetaParser;
+import com.bitstars.meta.parsers.DataParser;
+import com.bitstars.meta.parsers.MetaParser;
 import com.google.gson.Gson;
 
 /**

@@ -1,4 +1,4 @@
-package com.bitstars.meta;
+package com.bitstars.meta.utils;
 
 /**
  * test your regex with: https://www.debuggex.com/

@@ -9,7 +9,7 @@ import com.bitstars.meta.model.MetaModel;
 import com.bitstars.meta.models.ComplexObject;
 import com.bitstars.meta.models.SimpleObject;
 import com.bitstars.meta.models.SubClassOfSimpleObject;
-import com.bitstars.meta.parser.MetaParser;
+import com.bitstars.meta.parsers.MetaParser;
 
 /**
  * This method has two Test annotations. This is for you. So you can run this

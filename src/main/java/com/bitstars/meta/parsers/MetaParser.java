@@ -1,4 +1,4 @@
-package com.bitstars.meta.parser;
+package com.bitstars.meta.parsers;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;

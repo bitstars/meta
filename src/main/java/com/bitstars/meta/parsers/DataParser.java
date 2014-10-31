@@ -1,15 +1,16 @@
-package com.bitstars.meta;
+package com.bitstars.meta.parsers;
 
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.bitstars.meta.MetaValidator;
 import com.bitstars.meta.annotation.MetaAttr;
 import com.bitstars.meta.annotation.MetaJSONTranslator;
-import com.bitstars.meta.parser.MetaParser;
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
@@ -22,12 +23,17 @@ import com.google.gson.GsonBuilder;
  *
  */
 public class DataParser {
+	@Deprecated
 	public static final String ALL_DB_DATA = "allDbData";
+	@Deprecated
 	public static final String SINGLE_DB_DATA = "singleDbData";
-
+	@Deprecated
 	Gson gsonParserAllData;
+	@Deprecated
 	Gson gsonParserAllDataWithoutUnvisibleFields;
+	@Deprecated
 	Gson gsonParserPublicFields;
+	@Deprecated
 	Gson gsonParserPrivateFields;
 
 	public DataParser() {
@@ -50,6 +56,7 @@ public class DataParser {
 	 * @author Ruslan
 	 *
 	 */
+	@Deprecated
 	private static class CDExclusionStrategy implements ExclusionStrategy {
 
 		public boolean shouldSkipField(FieldAttributes f) {
@@ -76,6 +83,7 @@ public class DataParser {
 	 * @author Ruslan
 	 *
 	 */
+	@Deprecated
 	private static class CDExclusionPublicStrategy implements ExclusionStrategy {
 
 		public boolean shouldSkipField(FieldAttributes f) {
@@ -102,6 +110,7 @@ public class DataParser {
 	 * @author Ruslan
 	 *
 	 */
+	@Deprecated
 	private static class CDExclusionPrivateStrategy implements
 			ExclusionStrategy {
 
@@ -125,6 +134,150 @@ public class DataParser {
 	}
 
 	/**
+	 * This strategy is a common strategy which can be used to include only
+	 * fields, that developer need
+	 *
+	 * @author Ruslan
+	 *
+	 */
+	private static class CommonIxclusionPrivateStrategy implements
+			ExclusionStrategy {
+		int includedAttr;
+
+		public CommonIxclusionPrivateStrategy(int metaAttributes) {
+			includedAttr = metaAttributes;
+		}
+
+		public boolean shouldSkipField(FieldAttributes f) {
+			if (f.getAnnotation(MetaAttr.class) != null) {
+				MetaAttr attr = f.getAnnotation(MetaAttr.class);
+				if ((attr.type() & includedAttr) != 0) {
+					return false;
+				} else {
+					return true;
+				}
+			}
+			return true;
+		}
+
+		public boolean shouldSkipClass(Class<?> clazz) {
+			return false;
+		}
+	}
+
+	/**
+	 * This strategy is a common strategy which can be used to exclude only
+	 * fields, that developer doesn't need
+	 *
+	 * @author Ruslan
+	 *
+	 */
+	private static class CommonExclusionPrivateStrategy implements
+			ExclusionStrategy {
+		int excludedAttr;
+
+		public CommonExclusionPrivateStrategy(int metaAttributes) {
+			excludedAttr = metaAttributes;
+		}
+
+		public boolean shouldSkipField(FieldAttributes f) {
+			if (f.getAnnotation(MetaAttr.class) != null) {
+				MetaAttr attr = f.getAnnotation(MetaAttr.class);
+				if ((attr.type() & excludedAttr) != 0) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+			return false;
+		}
+
+		public boolean shouldSkipClass(Class<?> clazz) {
+			return false;
+		}
+	}
+
+	/**
+	 * Simple parsing of object without constraints
+	 *
+	 * @param object
+	 * @return object as JSON in root
+	 */
+	public JSONObject parseSingleObject(Object object) {
+		return new JSONObject(new Gson().toJson(object));
+	}
+
+	/**
+	 * Parsing of object attributes, which have given meta attributes
+	 *
+	 * @param object
+	 * @param metaAttributes
+	 *            - e.g. MetaAttr.FIELDS_READ_ONLY + MetaAttr.PRIVATE
+	 * @return
+	 */
+	public JSONObject parseSingleObjectIncludingMetaAttrs(Object object,
+			int metaAttributes) {
+		Gson gsonParser = new GsonBuilder().setExclusionStrategies(
+				new CommonIxclusionPrivateStrategy(metaAttributes)).create();
+		return new JSONObject(gsonParser.toJson(object));
+	}
+
+	/**
+	 * Parsing of object attributes, which doesn't have given meta attributes
+	 *
+	 * @param object
+	 * @param metaAttributes
+	 *            - e.g. MetaAttr.FIELDS_READ_ONLY + MetaAttr.PRIVATE
+	 * @return
+	 */
+	public JSONObject parseSingleObjectExcludingMetaAttrs(Object object,
+			int metaAttributes) {
+		Gson gsonParser = new GsonBuilder().setExclusionStrategies(
+				new CommonExclusionPrivateStrategy(metaAttributes)).create();
+		return new JSONObject(gsonParser.toJson(object));
+	}
+
+	/**
+	 * Simple parsing of object without constraints
+	 *
+	 * @param object
+	 * @return object as JSON in root
+	 */
+	public JSONArray parseCollectionObject(Object object) {
+		return new JSONArray(new Gson().toJson(object));
+	}
+
+	/**
+	 * Parsing of object attributes, which have given meta attributes
+	 *
+	 * @param object
+	 * @param metaAttributes
+	 *            - e.g. MetaAttr.FIELDS_READ_ONLY + MetaAttr.PRIVATE
+	 * @return
+	 */
+	public JSONArray parseCollectionObjectIncludingMetaAttrs(Object object,
+			int metaAttributes) {
+		Gson gsonParser = new GsonBuilder().setExclusionStrategies(
+				new CommonIxclusionPrivateStrategy(metaAttributes)).create();
+		return new JSONArray(gsonParser.toJson(object));
+	}
+
+	/**
+	 * Parsing of object attributes, which doesn't have given meta attributes
+	 *
+	 * @param object
+	 * @param metaAttributes
+	 *            - e.g. MetaAttr.FIELDS_READ_ONLY + MetaAttr.PRIVATE
+	 * @return
+	 */
+	public JSONArray parseCollectionObjectExcludingMetaAttrs(Object object,
+			int metaAttributes) {
+		Gson gsonParser = new GsonBuilder().setExclusionStrategies(
+				new CommonExclusionPrivateStrategy(metaAttributes)).create();
+		return new JSONArray(gsonParser.toJson(object));
+	}
+
+	/**
 	 * This method is for parsing all data from objects excluding its transient
 	 * fields defined by module.meta.MetaAttr
 	 *
@@ -132,6 +285,7 @@ public class DataParser {
 	 * @param includeInvisibleFields
 	 * @return
 	 */
+	@Deprecated
 	public JSONObject parseDBSet(Iterator<?> allData,
 			boolean includeInvisibleFields, boolean includeMeta) {
 		JSONObject result = new JSONObject();
@@ -168,6 +322,7 @@ public class DataParser {
 		return result;
 	}
 
+	@Deprecated
 	public JSONObject parseSingleData(Object singleData,
 			boolean includeInvisibleFields, boolean includeMeta) {
 		List<Object> temp = new LinkedList<Object>();
@@ -175,6 +330,7 @@ public class DataParser {
 		return parseDBSet(temp.iterator(), includeInvisibleFields, includeMeta);
 	}
 
+	@Deprecated
 	public JSONObject parseSinglePublicData(Object singleData,
 			boolean includeMeta) {
 
@@ -194,6 +350,7 @@ public class DataParser {
 		return result;
 	}
 
+	@Deprecated
 	public JSONObject parseSinglePrivateData(Object singleData,
 			boolean includeMeta) {
 
@@ -213,6 +370,7 @@ public class DataParser {
 		return result;
 	}
 
+	@Deprecated
 	public Gson getGsonForAllData() {
 		return gsonParserAllData;
 	}
