@@ -1,21 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results skipped="0" failed="0" total="2" passed="2">
+<testng-results skipped="0" failed="0" total="6" passed="6">
   <reporter-output>
   </reporter-output>
-  <suite name="de.russcity.meta.MetaParserTest" duration-ms="96" started-at="2014-10-30T09:15:48Z" finished-at="2014-10-30T09:15:48Z">
+  <suite name="com.bitstars.meta.tests.MetaParserTest" duration-ms="141" started-at="2014-10-31T09:15:50Z" finished-at="2014-10-31T09:15:51Z">
     <groups>
     </groups>
-    <test name="Command line test" duration-ms="96" started-at="2014-10-30T09:15:48Z" finished-at="2014-10-30T09:15:48Z">
-      <class name="de.russcity.meta.MetaParserTest">
-        <test-method status="PASS" signature="complextObjectTest()[pri:0, instance:de.russcity.meta.MetaParserTest@131767b]" name="complextObjectTest" duration-ms="63" started-at="2014-10-30T10:15:48Z" finished-at="2014-10-30T10:15:48Z">
+    <test name="Command line test" duration-ms="141" started-at="2014-10-31T09:15:50Z" finished-at="2014-10-31T09:15:51Z">
+      <class name="com.bitstars.meta.tests.MetaParserTest">
+        <test-method status="PASS" signature="complextObjectAsJSONTest()[pri:0, instance:com.bitstars.meta.tests.MetaParserTest@fb53f6]" name="complextObjectAsJSONTest" duration-ms="40" started-at="2014-10-31T10:15:50Z" finished-at="2014-10-31T10:15:50Z">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- complextObjectTest -->
-        <test-method status="PASS" signature="simpleObjectTest()[pri:0, instance:de.russcity.meta.MetaParserTest@131767b]" name="simpleObjectTest" duration-ms="11" started-at="2014-10-30T10:15:48Z" finished-at="2014-10-30T10:15:48Z">
+        </test-method> <!-- complextObjectAsJSONTest -->
+        <test-method status="PASS" signature="complextObjectAsObjectTest()[pri:0, instance:com.bitstars.meta.tests.MetaParserTest@fb53f6]" name="complextObjectAsObjectTest" duration-ms="71" started-at="2014-10-31T10:15:50Z" finished-at="2014-10-31T10:15:51Z">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- simpleObjectTest -->
-      </class> <!-- de.russcity.meta.MetaParserTest -->
+        </test-method> <!-- complextObjectAsObjectTest -->
+        <test-method status="PASS" signature="simpleObjectAsJSONTest()[pri:0, instance:com.bitstars.meta.tests.MetaParserTest@fb53f6]" name="simpleObjectAsJSONTest" duration-ms="10" started-at="2014-10-31T10:15:51Z" finished-at="2014-10-31T10:15:51Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- simpleObjectAsJSONTest -->
+        <test-method status="PASS" signature="subClassOfSimpleObjectAsJSONTest()[pri:0, instance:com.bitstars.meta.tests.MetaParserTest@fb53f6]" name="subClassOfSimpleObjectAsJSONTest" duration-ms="0" started-at="2014-10-31T10:15:51Z" finished-at="2014-10-31T10:15:51Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- subClassOfSimpleObjectAsJSONTest -->
+        <test-method status="PASS" signature="simpleObjectAsObjectTest()[pri:0, instance:com.bitstars.meta.tests.MetaParserTest@fb53f6]" name="simpleObjectAsObjectTest" duration-ms="0" started-at="2014-10-31T10:15:51Z" finished-at="2014-10-31T10:15:51Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- simpleObjectAsObjectTest -->
+        <test-method status="PASS" signature="subClassOfSimpleObjectAsObjectTest()[pri:0, instance:com.bitstars.meta.tests.MetaParserTest@fb53f6]" name="subClassOfSimpleObjectAsObjectTest" duration-ms="0" started-at="2014-10-31T10:15:51Z" finished-at="2014-10-31T10:15:51Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- subClassOfSimpleObjectAsObjectTest -->
+      </class> <!-- com.bitstars.meta.tests.MetaParserTest -->
     </test> <!-- Command line test -->
-  </suite> <!-- de.russcity.meta.MetaParserTest -->
+  </suite> <!-- com.bitstars.meta.tests.MetaParserTest -->
 </testng-results>
