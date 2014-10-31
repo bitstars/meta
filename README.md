@@ -245,3 +245,54 @@ To understand what you can create with meta, consider this meta model:
 The meta model is defined recursively. So, you can describe each model with its complex field. 
 
 One important thing: Your model cannot have dependencies of themselves and no loops. Actually, it is clear, just thing about an object oriented data base, you cannot also store such objects in db.
+
+Parsing a object data as JSON
+-----------------------------
+
+It's also easy to parse objects data to JSON. Consider this <i>SimpleObject</i>:
+
+    SimpleObject so = new SimpleObject();
+    so.setDescription("myDescription");
+    so.setId(123L);
+    so.setName("myName");
+    so.setPrivateName("myPrivateName");
+
+To parse this object just use:
+
+    new DataParser().parseSingleObject(so);
+
+As result you will get this JSON object:
+
+    {
+       "id":123,
+       "description":"myDescription",
+       "name":"myName",
+       "private_name":"myPrivateName"
+    }
+
+Easy or? Assume that <i>SingleObject.java</i> has declaration like above with meta annotations. Now we can include or exclude some of the data depends on meta attributes. E.g. if we want to get only <i>MetaAttr.FIELDS_PRIVATE</i> and <i>MetaAttr.TYPE_ID</i>, we do this:
+
+    new DataParser().parseSingleObjectIncludingMetaAttrs(so, MetaAttr.FIELDS_PRIVATE + MetaAttr.TYPE_ID);
+
+The result is like expected:
+  
+    {
+      "id":123,
+      "private_name":"myPrivateName"
+    }
+
+Also you can parse a set of objects:
+
+    List<SimpleObject>collectionSo = new ArrayList<SimpleObject>();
+    collectionSo.add(so);
+    collectionSo.add(so);
+    
+And parse it to JSONArray:
+
+    new DataParser().parseCollectionObjectIncludingMetaAttrs(simpleObjects,	MetaAttr.READ_ONLY);
+    
+You will get the result:
+
+    [{"private_name":"myPrivateName"},{"private_name":"myPrivateName"}]
+    
+This syntax of converted objects is appropriate for the REST interface conventions of most of the front-end technologies, like Backbone.js or AngularJS.
