@@ -1,10 +1,10 @@
 package com.bitstars.meta.tests;
 
 import org.json.JSONObject;
+import org.junit.Assert;
 import org.junit.Rule;
+import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.testng.Assert;
-import org.testng.annotations.Test;
 
 import com.bitstars.meta.exceptions.UpdaterException;
 import com.bitstars.meta.models.SimpleObject;
@@ -13,9 +13,7 @@ import com.bitstars.meta.parsers.DataParser;
 import com.bitstars.meta.updater.MetaUpdater;
 
 /**
- * This method has two Test annotations. This is for you. So you can run this
- * tests either with Run As -> Maven-Test or JUnit-Test. Both works.
- *
+ * 
  * @author RU$$
  *
  */
@@ -24,7 +22,6 @@ public class MetaUpdaterTest {
 	public ExpectedException thrown = ExpectedException.none();
 
 	@Test
-	@org.junit.Test
 	public void updateSimpleObjectTest() {
 		SimpleObject so1 = new SimpleObject();
 		so1.setId(123L);
@@ -44,21 +41,20 @@ public class MetaUpdaterTest {
 			System.out.println(e);
 		}
 
-		Assert.assertEquals(so2.getId(), so1.getId(),
-				"Id field cannot be changed!");
+		Assert.assertEquals("Id field cannot be changed!", so2.getId(),
+				so1.getId());
 
-		Assert.assertEquals(so2.getDescription(), so1.getDescription(),
-				"Description is read only field, but was changed!");
+		Assert.assertEquals("Description is read only field, but was changed!",
+				so2.getDescription(), so1.getDescription());
 
-		Assert.assertEquals(so2.getName(), "name2",
-				"Name attribute was not changed!");
+		Assert.assertEquals("Name attribute was not changed!", so2.getName(),
+				"name2");
 
 		System.out.println("Updated object: "
 				+ new DataParser().parseSingleObject(so2));
 	}
 
 	@Test
-	@org.junit.Test
 	public void updateSubClassOfSimpleObjectTest() throws UpdaterException {
 		SubClassOfSimpleObject scso1 = new SubClassOfSimpleObject();
 		scso1.setId(123L);

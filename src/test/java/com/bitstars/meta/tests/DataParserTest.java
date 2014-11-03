@@ -5,16 +5,14 @@ import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import org.junit.Assert;
+import org.junit.Test;
 
 import com.bitstars.meta.annotation.MetaAttr;
 import com.bitstars.meta.models.SimpleObject;
 import com.bitstars.meta.parsers.DataParser;
 
 /**
- * This method has two Test annotations. This is for you. So you can run this
- * tests either with Run As -> Maven-Test or JUnit-Test. Both works.
  *
  * @author RU$$
  *
@@ -22,7 +20,6 @@ import com.bitstars.meta.parsers.DataParser;
 public class DataParserTest {
 
 	@Test
-	@org.junit.Test
 	public void simpleObjectWithoutMetaTest() {
 		// Simple startegy
 		SimpleObject so = generateSimpleObjectWithAttributes();
@@ -65,8 +62,8 @@ public class DataParserTest {
 				.println("Collection of SimpleObject with excluding strategie: "
 						+ jo4);
 
-		Assert.assertEquals(jo4.length(), 2,
-				"Data Parsing of collection was not correct!");
+		Assert.assertEquals("Data Parsing of collection was not correct!",
+				jo4.length(), 2);
 		Assert.assertTrue(jo4.getJSONObject(0).isNull("id"));
 		Assert.assertFalse(jo4.getJSONObject(0).isNull("name"));
 		Assert.assertTrue(jo4.getJSONObject(0).isNull("description"));

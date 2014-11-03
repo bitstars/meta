@@ -1,10 +1,10 @@
 package com.bitstars.meta.tests;
 
 import org.json.JSONObject;
+import org.junit.Assert;
 import org.junit.Rule;
+import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.testng.Assert;
-import org.testng.annotations.Test;
 
 import com.bitstars.meta.exceptions.ValidatorException;
 import com.bitstars.meta.models.SimpleObject;
@@ -13,9 +13,7 @@ import com.bitstars.meta.parsers.MetaParser;
 import com.bitstars.meta.validators.MetaValidator;
 
 /**
- * This method has two Test annotations. This is for you. So you can run this
- * tests either with Run As -> Maven-Test or JUnit-Test. Both works.
- *
+ * 
  * @author RU$$
  *
  */
@@ -29,7 +27,6 @@ public class MetaValidatorTest {
 	 * @throws ValidatorException
 	 */
 	@Test
-	@org.junit.Test
 	public void simpleObjectAsJSONTest() throws ValidatorException {
 		SimpleObject so = generateSimpleObjectWithAttributes();
 
@@ -57,7 +54,6 @@ public class MetaValidatorTest {
 	}
 
 	@Test
-	@org.junit.Test
 	public void subClassOfSimpleObjectTest() throws ValidatorException {
 		SubClassOfSimpleObject scso = new SubClassOfSimpleObject();
 		scso.setbValue(true);
