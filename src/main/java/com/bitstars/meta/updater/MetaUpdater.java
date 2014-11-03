@@ -1,6 +1,9 @@
 package com.bitstars.meta.updater;
 
 import java.util.Iterator;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.json.JSONObject;
 
@@ -97,11 +100,43 @@ public class MetaUpdater {
 				}
 
 				if (!complex) {
+					// check if field has a regex
+					for (Map<String, String> map : mm.getFIELDS_REGEX()) {
+						if (map.containsKey(key)) {
+							if (!checkRegex(jo2.get(key).toString(),
+									map.get(key))) {
+								throw new UpdaterException("Key '" + key
+										+ "' has a regex '" + map.get(key)
+										+ "' which is not matched by value '"
+										+ jo2.get(key) + "'");
+							}
+						}
+					}
 					jo1.put(key, jo2.get(key));
 				}
 
 			}
 		}
 		return jo1;
+	}
+
+	/**
+	 * This method checks a value by matching with given regex. The grammar of
+	 * regex can be read <a href=
+	 * "http://www.vogella.com/articles/JavaRegularExpressions/article.html"
+	 * >here</a>
+	 *
+	 * @param value
+	 * @param regex
+	 * @return
+	 */
+	private boolean checkRegex(String value, String regex) {
+		if (regex.charAt(0) == '?') {
+			// TODO: define own regex rules
+			return true;
+		}
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(value);
+		return matcher.matches();
 	}
 }
