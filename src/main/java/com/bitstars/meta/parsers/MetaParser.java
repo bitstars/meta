@@ -172,13 +172,13 @@ public class MetaParser {
 							result,
 							MetaJSONTranslator.FIELDS_COMPLEX_STR,
 							(new JSONObject()
-									.put(MetaJSONTranslator.ATTRIBUTE_NAME_STR,
-											cClass.fieldName)
+							.put(MetaJSONTranslator.ATTRIBUTE_NAME_STR,
+									cClass.fieldName)
 									.put(MetaJSONTranslator.ATTRIBUTE_TYPE_STR,
 											(cClass.collection ? MetaJSONTranslator.ATTRIBUTE_TYPE_COLLECTION_STR
 													: MetaJSONTranslator.ATTRIBUTE_TYPE_SINGLE_STR))
-									.put(MetaJSONTranslator.META_DATA_STR,
-											getMetaAsJSON(cClass.clazz))));
+													.put(MetaJSONTranslator.META_DATA_STR,
+															getMetaAsJSON(cClass.clazz))));
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
@@ -187,6 +187,7 @@ public class MetaParser {
 
 		return result;
 	}
+
 
 	private boolean notContainName(List<Field> allFields, Field field) {
 		for (Field fieldExist : allFields) {
@@ -312,12 +313,12 @@ public class MetaParser {
 				}
 			} else if (((types & attr) != 0)
 					&& ((attr & MetaAttr.TYPE_ID) != 0)) {
-					// put attribute, without creating an array, because id field
-					// can be only one
-					jsonObject.put(MetaJSONTranslator.translateType(attr),
-							fieldName);
+				// put attribute, without creating an array, because id field
+				// can be only one
+				jsonObject.put(MetaJSONTranslator.translateType(attr),
+						fieldName);
 
-				}
+			}
 		}
 
 		return jsonObject;
@@ -452,6 +453,134 @@ public class MetaParser {
 				result.add(object.toString());
 			}
 		}
+		return result;
+	}
+
+	/**
+	 * Determines the meta model of given class including all inner classes with including strategy.
+	 * Only attributes which have <b>metaAttributes</b> will be parsed
+	 *
+	 * @param clazz
+	 *            to get meta
+	 * @return meta model as JSONObject
+	 */
+	public JSONObject getMetaAsJSONIncludingMetaAttr(Class<? extends Object> clazz, int metaAttributes) {
+
+		JSONObject result = new JSONObject();
+		List<Field> allFields = new LinkedList<Field>();
+		Set<ComplexClass> complexeClasses = new HashSet<ComplexClass>();
+
+		// store object class name
+		try {
+			result.accumulate(MetaJSONTranslator.CLASS_NAME_STR,
+					clazz.getSimpleName());
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		}
+
+		// get all fields
+		do {
+			Field[] fields = clazz.getDeclaredFields();
+			for (Field field : fields) {
+				if ((field.isAnnotationPresent(MetaAttr.class) && (field.getAnnotation(MetaAttr.class).type() & metaAttributes) != 0)) {
+					// Scan just those types that are shouldn't be skipped
+					// Also check if some attributes of superclass where hidden
+					// by attributes of subclass. Do not consider these
+					// attributes
+					if (notContainName(allFields, field)) {
+						allFields.add(field);
+					}
+				}
+			}
+			clazz = clazz.getSuperclass();
+		} while (clazz != Object.class);
+
+		// iterate over all fields
+		for (Field field : allFields) {
+			if (!Modifier.isFinal(field.getModifiers())) {
+				try {
+
+					// save all non primitive types to call it recursive later
+					if (!isPrimitive(field)) {
+						if (!isCollection(field.getType())) {
+							ComplexClass cc;
+
+							field.setAccessible(true);
+
+							// takes just class
+							cc = new ComplexClass(null, field.getType(),
+									field.getName(), false);
+
+							if (!cc.isInterface()) {
+								complexeClasses.add(cc);
+							}
+						} else {
+							ComplexClass cc;
+
+							field.setAccessible(true);
+
+							// takes class
+							cc = new ComplexClass(null,
+									((Class<?>) ((ParameterizedType) field
+											.getGenericType())
+											.getActualTypeArguments()[0]),
+											field.getName(), true);
+
+							if (!cc.isInterface()) {
+								complexeClasses.add(cc);
+							}
+						}
+					}
+
+					// save all fields
+					result.accumulate(MetaJSONTranslator.FIELDS_ALL_STR,
+							field.getName());
+
+					// check annotation specific fields
+					if (field.isAnnotationPresent(MetaAttr.class)) {
+						MetaAttr attr = field.getAnnotation(MetaAttr.class);
+						if (!attr.regex().equals("")) {
+							result = appendAsArray(result,
+									MetaJSONTranslator.FIELDS_REGEX_STR,
+									new JSONObject().accumulate(
+											field.getName(), attr.regex()));
+						}
+						if (attr.type() != 0) {
+							result = addAllTypes(result, attr.type(),
+									field.getName());
+						}
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+					return null;
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+					return null;
+				}
+			}
+		}
+
+		// recursive call for complexe classes
+		if (complexeClasses.size() != 0) {
+			for (ComplexClass cClass : complexeClasses) {
+				try {
+					result = appendAsArray(
+							result,
+							MetaJSONTranslator.FIELDS_COMPLEX_STR,
+							(new JSONObject()
+							.put(MetaJSONTranslator.ATTRIBUTE_NAME_STR,
+									cClass.fieldName)
+									.put(MetaJSONTranslator.ATTRIBUTE_TYPE_STR,
+											(cClass.collection ? MetaJSONTranslator.ATTRIBUTE_TYPE_COLLECTION_STR
+													: MetaJSONTranslator.ATTRIBUTE_TYPE_SINGLE_STR))
+													.put(MetaJSONTranslator.META_DATA_STR,
+															getMetaAsJSON(cClass.clazz))));
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
 		return result;
 	}
 }

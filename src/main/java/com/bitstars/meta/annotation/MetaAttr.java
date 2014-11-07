@@ -38,6 +38,7 @@ public @interface MetaAttr {
 	public static final int FIELDS_PRIVATE = 1 << 13;
 	public static final int FIELDS_PUBLIC = 1 << 14;
 	public static final int FIELDS_NOT_NULL = 1 << 15;
+	public static final int FIELDS_ADMIN = 1 << 16;
 
 	public String regex() default "";
 
