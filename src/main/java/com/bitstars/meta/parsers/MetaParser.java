@@ -36,6 +36,21 @@ public class MetaParser {
 	}
 
 	/**
+	 * Determines the meta model of given object including all inner classes with including strategy.
+	 * Only attributes which have <b>metaAttributes</b> will be parsed
+	 *
+	 * @param object
+	 *            to get meta
+	 * @param metaAttr
+	 * 			fields that should be parsed
+	 * @return meta model as JSONObject
+	 */
+	public JSONObject getMetaAsJSONIncludingMetaAttr(Object object, int metaAttr) {
+		Class<? extends Object> clazz = object.getClass();
+		return getMetaAsJSONIncludingMetaAttr(clazz, metaAttr);
+	}
+
+	/**
 	 * Determines the meta model of given object including all inner classes
 	 *
 	 * @param object
@@ -462,6 +477,8 @@ public class MetaParser {
 	 *
 	 * @param clazz
 	 *            to get meta
+	 * @param metaAttr
+	 * 			fields that should be parsed
 	 * @return meta model as JSONObject
 	 */
 	public JSONObject getMetaAsJSONIncludingMetaAttr(Class<? extends Object> clazz, int metaAttributes) {
