@@ -1,7 +1,7 @@
 meta
 ====
 
-<h2>Portable module (library) for any Java projects. Helps build models, views and validators</h2>
+<h2>meta is a minimal standalone Java library to be used on any target plattform like Android or Java EE. It helps to build models, views and validators</h2>
 
 <b>meta</b> is a library, that can be used in any java project for these purposes:
 <ul>
@@ -14,21 +14,21 @@ meta
   <li> Describe your models with additional meta-language given by <b>meta</b> as annotations</li>
   <li> Validate an object against its meta model </li>
     <ul>
-    <li> on back end using Java meta model or </li>
-    <li> on front end using JSON meta model</li>
+    <li> on the backend using Java meta model or </li>
+    <li> on the frontend using JSON meta model</li>
     </ul>
-  <li> Create a view for object depends on its meta model </li>
+  <li> Creating a view for an Pojo only based on its meta model </li>
     <ul>
     <li> for HTML </li>
-    <li> for other platforms using JSON meta model</li>
+    <li> for other platforms using the JSON meta model</li>
     </ul>
 </ul>
 
 Building a meta model of java model
 -----------------------------------
 
-<h3> Simple Java Class </h3>
-It is really easy to use <b>meta</b> for building of meta models. Consider this <i>SimpleObject.java</i> model class:
+<h3> POJO Example </h3>
+Consider a simple POJO <i>SimpleObject.java</i>:
 
     public class SimpleObject {
       private Long id;
@@ -55,9 +55,9 @@ That's it. You will get as result this JSON Object:
       "CLASS_NAME":"SimpleObject"
     }
 
-Using this meta model you can create your own view, because you know all the attributes of the model and its class name. 
+Using this meta model a view can be created, because all attributes of the model are known. 
 
-<h3> Java Class with meta Annotations</h3>
+<h3> POJO Example with meta Annotations</h3>
 
 Let's do some more complex things. Assuming that you want not only create views for your models, but also validate some of data. Moreover you don't want send some of the data to front end, because you want use it only on backend, and some of data should be visible only for owner of object. For this, simply add these annotations to the fields of <i>SimpleObject.java</i>, like:
 
@@ -115,7 +115,7 @@ Meta cannot only parse the standalone classes but also complex classes which use
     	public LinkedList<SimpleObject> thisAttributeShouldNotBeConsideredByMeta;
     }
 
-This class has field simpleObject from Type SimpleObject. So, meta parser will go there and additionally parse the type of this field:
+This class has a field simpleObject from Type SimpleObject. So, meta parser will go there and additionally parse the type of this field:
 
     {
      "FIELDS_ALL":[
