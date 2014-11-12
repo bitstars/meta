@@ -6,8 +6,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * CrowDev-Meta-Attribute can annotate one field. There are following
- * attributes:<br>
+ * CrowDev-Meta-Attribute can annotate one field. By adding new attributes don't
+ * forget to add these to MetaJSONTranslator.java:<br>
  * <ul>
  * <li><b>regex </b>, default: <b>""</b><br>
  * Read about regex: <a
@@ -30,6 +30,7 @@ public @interface MetaAttr {
 	public static final int TYPE_URL_IMAGE = 1 << 1;
 	public static final int TYPE_DATE_LONG = 1 << 2;
 	public static final int TYPE_SKIP_META = 1 << 3;
+	public static final int TYPE_BOOLEAN = 1 << 4;
 
 	// Field descriptors
 	public static final int FIELDS_READ_ONLY = 1 << 10;

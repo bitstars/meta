@@ -5,12 +5,7 @@ public class MetaJSONTranslator {
 	public static final String TYPE_ID_STR = "TYPE_ID";
 	public static final String TYPE_URL_IMAGE_STR = "TYPE_URL_IMAGE";
 	public static final String TYPE_DATE_LONG_STR = "TYPE_DATE_LONG";
-	public static final String FIELDS_READ_ONLY_STR = "FIELDS_READ_ONLY";
-	public static final String FIELDS_UNIQ_IN_SCOPE_STR = "FIELDS_UNIQ_IN_SCOPE";
-	public static final String FIELDS_TRANSIENT_STR = "FIELDS_TRANSIENT";
-	public static final String FIELDS_PRIVATE_STR = "FIELDS_PRIVATE";
-	public static final String FIELDS_PUBLIC_STR = "FIELDS_PUBLIC";
-	public static final String FIELDS_ADMIN_STR = "FIELDS_ADMIN";
+	public static final String TYPE_BOOLEAN_STR = "TYPE_BOOLEAN";
 
 	// By adding of new field descriptors this array should be also extends with
 	// it new attributes. The order is not important
@@ -18,7 +13,7 @@ public class MetaJSONTranslator {
 		MetaAttr.FIELDS_UNIQ_IN_SCOPE, MetaAttr.FIELDS_TRANSIENT,
 		MetaAttr.TYPE_DATE_LONG, MetaAttr.TYPE_ID, MetaAttr.TYPE_URL_IMAGE,
 		MetaAttr.FIELDS_PRIVATE, MetaAttr.FIELDS_PUBLIC,
-		MetaAttr.FIELDS_NOT_NULL };
+		MetaAttr.FIELDS_NOT_NULL, MetaAttr.TYPE_BOOLEAN };
 
 	// Main meta descriptor
 	public static final String META_DATA_STR = "META_DATA";
@@ -29,6 +24,12 @@ public class MetaJSONTranslator {
 	public static final String FIELDS_REGEX_STR = "FIELDS_REGEX";
 	public static final String FIELDS_COMPLEX_STR = "FIELDS_COMPLEX";
 	public static final String FIELDS_NOT_NULL_STR = "FIELDS_NOT_NULL";
+	public static final String FIELDS_READ_ONLY_STR = "FIELDS_READ_ONLY";
+	public static final String FIELDS_UNIQ_IN_SCOPE_STR = "FIELDS_UNIQ_IN_SCOPE";
+	public static final String FIELDS_TRANSIENT_STR = "FIELDS_TRANSIENT";
+	public static final String FIELDS_PRIVATE_STR = "FIELDS_PRIVATE";
+	public static final String FIELDS_PUBLIC_STR = "FIELDS_PUBLIC";
+	public static final String FIELDS_ADMIN_STR = "FIELDS_ADMIN";
 
 	// Class name
 	public static final String CLASS_NAME_STR = "CLASS_NAME";
@@ -69,6 +70,8 @@ public class MetaJSONTranslator {
 			return FIELDS_NOT_NULL_STR;
 		case MetaAttr.FIELDS_ADMIN:
 			return FIELDS_ADMIN_STR;
+		case MetaAttr.TYPE_BOOLEAN:
+			return TYPE_BOOLEAN_STR;
 		default:
 			return "unknownType";
 		}
