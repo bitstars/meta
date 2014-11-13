@@ -9,9 +9,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.bitstars.meta.annotation.MetaJSONTranslator;
+import com.bitstars.meta.annotation.MetaModel;
+import com.bitstars.meta.annotation.MetaModel.MetaComplexModel;
 import com.bitstars.meta.exceptions.ValidatorException;
-import com.bitstars.meta.models.MetaModel;
-import com.bitstars.meta.models.MetaModel.MetaComplexModel;
 import com.bitstars.meta.parsers.DataParser;
 import com.bitstars.meta.parsers.MetaParser;
 

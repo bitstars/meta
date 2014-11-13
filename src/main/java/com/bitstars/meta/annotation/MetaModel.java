@@ -1,4 +1,4 @@
-package com.bitstars.meta.models;
+package com.bitstars.meta.annotation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +16,7 @@ public class MetaModel {
 	private List<String> TYPE_URL_IMAGE;
 	private List<String> TYPE_DATE_LONG;
 	private List<String> TYPE_SKIP_META;
+	private List<String> TYPE_BOOLEAN;
 
 	private List<String> FIELDS_ALL;
 	private List<String> FIELDS_READ_ONLY;
@@ -25,6 +26,7 @@ public class MetaModel {
 	private List<String> FIELDS_TRANSIENT;
 	private List<String> FIELDS_PRIVATE;
 	private List<String> FIELDS_PUBLIC;
+	private List<String> FIELDS_ADMIN;
 
 	private List<Map<String, String>> FIELDS_REGEX;
 
@@ -36,6 +38,7 @@ public class MetaModel {
 		TYPE_URL_IMAGE = new ArrayList<String>();
 		TYPE_DATE_LONG = new ArrayList<String>();
 		TYPE_SKIP_META = new ArrayList<String>();
+		TYPE_BOOLEAN = new ArrayList<String>();
 
 		FIELDS_ALL = new ArrayList<String>();
 		FIELDS_READ_ONLY = new ArrayList<String>();
@@ -45,6 +48,7 @@ public class MetaModel {
 		FIELDS_TRANSIENT = new ArrayList<String>();
 		FIELDS_PRIVATE = new ArrayList<String>();
 		FIELDS_PUBLIC = new ArrayList<String>();
+		FIELDS_ADMIN = new ArrayList<String>();
 
 		FIELDS_REGEX = new ArrayList<Map<String, String>>();
 
@@ -201,6 +205,22 @@ public class MetaModel {
 
 	public void setFIELDS_REGEX(List<Map<String, String>> fIELDS_REGEX) {
 		FIELDS_REGEX = fIELDS_REGEX;
+	}
+
+	public List<String> getTYPE_BOOLEAN() {
+		return TYPE_BOOLEAN;
+	}
+
+	public void setTYPE_BOOLEAN(List<String> tYPE_BOOLEAN) {
+		TYPE_BOOLEAN = tYPE_BOOLEAN;
+	}
+
+	public List<String> getFIELDS_ADMIN() {
+		return FIELDS_ADMIN;
+	}
+
+	public void setFIELDS_ADMIN(List<String> fIELDS_ADMIN) {
+		FIELDS_ADMIN = fIELDS_ADMIN;
 	}
 
 }

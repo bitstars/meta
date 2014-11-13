@@ -18,7 +18,7 @@ import org.json.JSONObject;
 
 import com.bitstars.meta.annotation.MetaAttr;
 import com.bitstars.meta.annotation.MetaJSONTranslator;
-import com.bitstars.meta.models.MetaModel;
+import com.bitstars.meta.annotation.MetaModel;
 import com.google.gson.Gson;
 
 public class MetaParser {

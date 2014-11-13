@@ -26,6 +26,22 @@ public class SimpleObject {
 	@MetaAttr(type = MetaAttr.TYPE_SKIP_META)
 	private String unvisible_attribute;
 
+	public String getPrivate_name() {
+		return private_name;
+	}
+
+	public void setPrivate_name(String private_name) {
+		this.private_name = private_name;
+	}
+
+	public String getUnvisible_attribute() {
+		return unvisible_attribute;
+	}
+
+	public void setUnvisible_attribute(String unvisible_attribute) {
+		this.unvisible_attribute = unvisible_attribute;
+	}
+
 	public SimpleObject() {
 	}
 

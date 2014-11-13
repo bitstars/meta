@@ -5,8 +5,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.bitstars.meta.annotation.MetaJSONTranslator;
+import com.bitstars.meta.annotation.MetaModel;
 import com.bitstars.meta.models.ComplexObject;
-import com.bitstars.meta.models.MetaModel;
 import com.bitstars.meta.models.SimpleObject;
 import com.bitstars.meta.models.SubClassOfSimpleObject;
 import com.bitstars.meta.parsers.MetaParser;

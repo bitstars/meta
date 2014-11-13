@@ -77,4 +77,45 @@ public class MetaJSONTranslator {
 		}
 	}
 
+	public static int getMetaAttrTypeOfField(MetaModel metaModel, String field) {
+		int result = 0;
+		if (metaModel.getFIELDS_ADMIN().contains(field)) {
+			result += MetaAttr.FIELDS_ADMIN;
+		}
+		if (metaModel.getFIELDS_NOT_NULL().contains(field)) {
+			result += MetaAttr.FIELDS_NOT_NULL;
+		}
+		if (metaModel.getFIELDS_PRIVATE().contains(field)) {
+			result += MetaAttr.FIELDS_PRIVATE;
+		}
+		if (metaModel.getFIELDS_PUBLIC().contains(field)) {
+			result += MetaAttr.FIELDS_PUBLIC;
+		}
+		if (metaModel.getFIELDS_READ_ONLY().contains(field)) {
+			result += MetaAttr.FIELDS_READ_ONLY;
+		}
+		if (metaModel.getFIELDS_TRANSIENT().contains(field)) {
+			result += MetaAttr.FIELDS_TRANSIENT;
+		}
+		if (metaModel.getFIELDS_UNIQ_IN_SCOPE().contains(field)) {
+			result += MetaAttr.FIELDS_UNIQ_IN_SCOPE;
+		}
+		if (metaModel.getTYPE_BOOLEAN().contains(field)) {
+			result += MetaAttr.TYPE_BOOLEAN;
+		}
+		if (metaModel.getTYPE_DATE_LONG().contains(field)) {
+			result += MetaAttr.TYPE_DATE_LONG;
+		}
+		if (metaModel.getTYPE_ID().equals(field)) {
+			result += MetaAttr.TYPE_ID;
+		}
+		if (metaModel.getTYPE_SKIP_META().contains(field)) {
+			result += MetaAttr.TYPE_SKIP_META;
+		}
+		if (metaModel.getTYPE_URL_IMAGE().contains(field)) {
+			result += MetaAttr.TYPE_URL_IMAGE;
+		}
+		return result;
+	}
+
 }
