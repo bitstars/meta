@@ -10,10 +10,11 @@ public class MetaJSONTranslator {
 	// By adding of new field descriptors this array should be also extends with
 	// it new attributes. The order is not important
 	public static int[] allAttrs = { MetaAttr.FIELDS_READ_ONLY,
-		MetaAttr.FIELDS_UNIQ_IN_SCOPE, MetaAttr.FIELDS_TRANSIENT,
-		MetaAttr.TYPE_DATE_LONG, MetaAttr.TYPE_ID, MetaAttr.TYPE_URL_IMAGE,
-		MetaAttr.FIELDS_PRIVATE, MetaAttr.FIELDS_PUBLIC,
-		MetaAttr.FIELDS_NOT_NULL, MetaAttr.TYPE_BOOLEAN };
+			MetaAttr.FIELDS_UNIQ_IN_SCOPE, MetaAttr.FIELDS_TRANSIENT,
+			MetaAttr.TYPE_DATE_LONG, MetaAttr.TYPE_ID, MetaAttr.TYPE_URL_IMAGE,
+			MetaAttr.FIELDS_PRIVATE, MetaAttr.FIELDS_PUBLIC,
+			MetaAttr.FIELDS_NOT_NULL, MetaAttr.TYPE_BOOLEAN,
+			MetaAttr.FIELDS_ADMIN };
 
 	// Main meta descriptor
 	public static final String META_DATA_STR = "META_DATA";

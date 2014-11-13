@@ -36,13 +36,14 @@ public class MetaParser {
 	}
 
 	/**
-	 * Determines the meta model of given object including all inner classes with including strategy.
-	 * Only attributes which have <b>metaAttributes</b> will be parsed
+	 * Determines the meta model of given object including all inner classes
+	 * with including strategy. Only attributes which have <b>metaAttributes</b>
+	 * will be parsed
 	 *
 	 * @param object
 	 *            to get meta
 	 * @param metaAttr
-	 * 			fields that should be parsed
+	 *            fields that should be parsed
 	 * @return meta model as JSONObject
 	 */
 	public JSONObject getMetaAsJSONIncludingMetaAttr(Object object, int metaAttr) {
@@ -59,8 +60,8 @@ public class MetaParser {
 	 */
 	public MetaModel getMetaAsObject(Object object) {
 		Class<? extends Object> clazz = object.getClass();
-		return new Gson().fromJson(getMetaAsJSON(clazz).toString(),
-				MetaModel.class);
+		JSONObject metaJSON = getMetaAsJSON(clazz);
+		return new Gson().fromJson(metaJSON.toString(), MetaModel.class);
 	}
 
 	/**
@@ -143,7 +144,7 @@ public class MetaParser {
 									((Class<?>) ((ParameterizedType) field
 											.getGenericType())
 											.getActualTypeArguments()[0]),
-											field.getName(), true);
+									field.getName(), true);
 
 							if (!cc.isInterface()) {
 								complexeClasses.add(cc);
@@ -187,13 +188,13 @@ public class MetaParser {
 							result,
 							MetaJSONTranslator.FIELDS_COMPLEX_STR,
 							(new JSONObject()
-							.put(MetaJSONTranslator.ATTRIBUTE_NAME_STR,
-									cClass.fieldName)
+									.put(MetaJSONTranslator.ATTRIBUTE_NAME_STR,
+											cClass.fieldName)
 									.put(MetaJSONTranslator.ATTRIBUTE_TYPE_STR,
 											(cClass.collection ? MetaJSONTranslator.ATTRIBUTE_TYPE_COLLECTION_STR
 													: MetaJSONTranslator.ATTRIBUTE_TYPE_SINGLE_STR))
-													.put(MetaJSONTranslator.META_DATA_STR,
-															getMetaAsJSON(cClass.clazz))));
+									.put(MetaJSONTranslator.META_DATA_STR,
+											getMetaAsJSON(cClass.clazz))));
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
@@ -202,7 +203,6 @@ public class MetaParser {
 
 		return result;
 	}
-
 
 	private boolean notContainName(List<Field> allFields, Field field) {
 		for (Field fieldExist : allFields) {
@@ -472,16 +472,18 @@ public class MetaParser {
 	}
 
 	/**
-	 * Determines the meta model of given class including all inner classes with including strategy.
-	 * Only attributes which have <b>metaAttributes</b> will be parsed
+	 * Determines the meta model of given class including all inner classes with
+	 * including strategy. Only attributes which have <b>metaAttributes</b> will
+	 * be parsed
 	 *
 	 * @param clazz
 	 *            to get meta
 	 * @param metaAttr
-	 * 			fields that should be parsed
+	 *            fields that should be parsed
 	 * @return meta model as JSONObject
 	 */
-	public JSONObject getMetaAsJSONIncludingMetaAttr(Class<? extends Object> clazz, int metaAttributes) {
+	public JSONObject getMetaAsJSONIncludingMetaAttr(
+			Class<? extends Object> clazz, int metaAttributes) {
 
 		JSONObject result = new JSONObject();
 		List<Field> allFields = new LinkedList<Field>();
@@ -499,7 +501,8 @@ public class MetaParser {
 		do {
 			Field[] fields = clazz.getDeclaredFields();
 			for (Field field : fields) {
-				if ((field.isAnnotationPresent(MetaAttr.class) && (field.getAnnotation(MetaAttr.class).type() & metaAttributes) != 0)) {
+				if ((field.isAnnotationPresent(MetaAttr.class) && (field
+						.getAnnotation(MetaAttr.class).type() & metaAttributes) != 0)) {
 					// Scan just those types that are shouldn't be skipped
 					// Also check if some attributes of superclass where hidden
 					// by attributes of subclass. Do not consider these
@@ -541,7 +544,7 @@ public class MetaParser {
 									((Class<?>) ((ParameterizedType) field
 											.getGenericType())
 											.getActualTypeArguments()[0]),
-											field.getName(), true);
+									field.getName(), true);
 
 							if (!cc.isInterface()) {
 								complexeClasses.add(cc);
@@ -585,13 +588,13 @@ public class MetaParser {
 							result,
 							MetaJSONTranslator.FIELDS_COMPLEX_STR,
 							(new JSONObject()
-							.put(MetaJSONTranslator.ATTRIBUTE_NAME_STR,
-									cClass.fieldName)
+									.put(MetaJSONTranslator.ATTRIBUTE_NAME_STR,
+											cClass.fieldName)
 									.put(MetaJSONTranslator.ATTRIBUTE_TYPE_STR,
 											(cClass.collection ? MetaJSONTranslator.ATTRIBUTE_TYPE_COLLECTION_STR
 													: MetaJSONTranslator.ATTRIBUTE_TYPE_SINGLE_STR))
-													.put(MetaJSONTranslator.META_DATA_STR,
-															getMetaAsJSON(cClass.clazz))));
+									.put(MetaJSONTranslator.META_DATA_STR,
+											getMetaAsJSON(cClass.clazz))));
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}

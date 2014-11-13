@@ -80,7 +80,8 @@ public class MetaUpdater {
 	 */
 	public JSONObject updateObject(MetaModel mm, JSONObject target,
 			JSONObject updatedObject) throws UpdaterException {
-		Iterator<?> keys = target.keys();
+		JSONObject cloneTargetForKeys = new JSONObject(target.toString());
+		Iterator<?> keys = cloneTargetForKeys.keys();
 
 		// Iterate over attributes of original object
 		while (keys.hasNext()) {
@@ -91,15 +92,15 @@ public class MetaUpdater {
 					&& !mm.getTYPE_ID().equals(key)) {
 
 				// Check fields NOT_NULL
-				if (updatedObject.has(key)) {
-					if ((updatedObject.get(key) == null || updatedObject
-							.get(key).toString().equals(""))
-							&& (target.get(key) != null || !target.get(key)
-							.toString().equals(""))
-							&& mm.getFIELDS_NOT_NULL().contains(key)) {
-						throw new UpdaterException("Can not update field '"
-								+ key + "' of origin object by null ");
-					}
+
+				if (mm.getFIELDS_NOT_NULL().contains(key)
+						&& (!updatedObject.has(key)
+								|| updatedObject.get(key) == null || updatedObject
+								.get(key).toString().equals(""))
+						&& (target.get(key) != null || !target.get(key)
+								.toString().equals(""))) {
+					throw new UpdaterException("Can not update field '" + key
+							+ "' of origin object by null ");
 				}
 
 				boolean complex = false;
@@ -113,8 +114,8 @@ public class MetaUpdater {
 					// difference between order of the objects
 					if (complexField.getATTRIBUTE_NAME().equals(key)
 							&& complexField
-							.getATTRIBUTE_TYPE()
-							.equals(MetaJSONTranslator.ATTRIBUTE_TYPE_SINGLE_STR)) {
+									.getATTRIBUTE_TYPE()
+									.equals(MetaJSONTranslator.ATTRIBUTE_TYPE_SINGLE_STR)) {
 						complex = true;
 						target.put(
 								key,
@@ -137,7 +138,9 @@ public class MetaUpdater {
 							}
 						}
 					}
-					target.put(key, updatedObject.get(key));
+					if (updatedObject.has(key)) {
+						target.put(key, updatedObject.get(key));
+					}
 				}
 
 			}
@@ -158,8 +161,9 @@ public class MetaUpdater {
 	 */
 	public JSONObject updateObjectIncludingAttr(MetaModel mm,
 			JSONObject target, JSONObject updatedObject, int inclMetaAttr)
-					throws UpdaterException {
-		Iterator<?> keys = target.keys();
+			throws UpdaterException {
+		JSONObject cloneTargetForKeys = new JSONObject(target.toString());
+		Iterator<?> keys = cloneTargetForKeys.keys();
 
 		// Iterate over attributes of original object
 		while (keys.hasNext()) {
@@ -171,15 +175,14 @@ public class MetaUpdater {
 					&& ((MetaJSONTranslator.getMetaAttrTypeOfField(mm, key) & inclMetaAttr) != 0)) {
 
 				// Check fields NOT_NULL
-				if (updatedObject.has(key)) {
-					if ((updatedObject.get(key) == null || updatedObject
-							.get(key).toString().equals(""))
-							&& (target.get(key) != null || !target.get(key)
-							.toString().equals(""))
-							&& mm.getFIELDS_NOT_NULL().contains(key)) {
-						throw new UpdaterException("Can not update field '"
-								+ key + "' of origin object by null ");
-					}
+				if (mm.getFIELDS_NOT_NULL().contains(key)
+						&& (!updatedObject.has(key)
+								|| updatedObject.get(key) == null || updatedObject
+								.get(key).toString().equals(""))
+						&& (target.get(key) != null || !target.get(key)
+								.toString().equals(""))) {
+					throw new UpdaterException("Can not update field '" + key
+							+ "' of origin object by null ");
 				}
 
 				boolean complex = false;
@@ -193,8 +196,8 @@ public class MetaUpdater {
 					// difference between order of the objects
 					if (complexField.getATTRIBUTE_NAME().equals(key)
 							&& complexField
-							.getATTRIBUTE_TYPE()
-							.equals(MetaJSONTranslator.ATTRIBUTE_TYPE_SINGLE_STR)) {
+									.getATTRIBUTE_TYPE()
+									.equals(MetaJSONTranslator.ATTRIBUTE_TYPE_SINGLE_STR)) {
 						complex = true;
 						target.put(
 								key,
@@ -217,7 +220,9 @@ public class MetaUpdater {
 							}
 						}
 					}
-					target.put(key, updatedObject.get(key));
+					if (updatedObject.has(key)) {
+						target.put(key, updatedObject.get(key));
+					}
 				}
 
 			}

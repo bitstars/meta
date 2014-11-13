@@ -20,7 +20,8 @@ public class SimpleObject {
 	@MetaAttr(type = MetaAttr.FIELDS_PRIVATE)
 	private String private_name;
 
-	@MetaAttr(type = MetaAttr.FIELDS_PRIVATE + MetaAttr.FIELDS_READ_ONLY)
+	@MetaAttr(type = MetaAttr.FIELDS_PRIVATE + MetaAttr.FIELDS_READ_ONLY
+			+ MetaAttr.FIELDS_ADMIN)
 	private String description;
 
 	@MetaAttr(type = MetaAttr.TYPE_SKIP_META)

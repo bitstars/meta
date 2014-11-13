@@ -33,13 +33,13 @@ public @interface MetaAttr {
 	public static final int TYPE_BOOLEAN = 1 << 4;
 
 	// Field descriptors
-	public static final int FIELDS_READ_ONLY = 1 << 10;
-	public static final int FIELDS_UNIQ_IN_SCOPE = 1 << 11;
-	public static final int FIELDS_TRANSIENT = 1 << 12;
-	public static final int FIELDS_PRIVATE = 1 << 13;
-	public static final int FIELDS_PUBLIC = 1 << 14;
-	public static final int FIELDS_NOT_NULL = 1 << 15;
-	public static final int FIELDS_ADMIN = 1 << 16;
+	public static final int FIELDS_READ_ONLY = 1 << 8;
+	public static final int FIELDS_UNIQ_IN_SCOPE = 1 << 9;
+	public static final int FIELDS_TRANSIENT = 1 << 10;
+	public static final int FIELDS_PRIVATE = 1 << 11;
+	public static final int FIELDS_PUBLIC = 1 << 12;
+	public static final int FIELDS_NOT_NULL = 1 << 13;
+	public static final int FIELDS_ADMIN = 1 << 14;
 
 	public String regex() default "";
 
