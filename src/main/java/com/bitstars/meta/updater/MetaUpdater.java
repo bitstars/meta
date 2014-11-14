@@ -97,7 +97,7 @@ public class MetaUpdater {
 						&& (!updatedObject.has(key)
 								|| updatedObject.get(key) == null || updatedObject
 								.get(key).toString().equals(""))
-						&& (target.get(key) != null || !target.get(key)
+								&& (target.get(key) != null || !target.get(key)
 								.toString().equals(""))) {
 					throw new UpdaterException("Can not update field '" + key
 							+ "' of origin object by null ");
@@ -114,8 +114,8 @@ public class MetaUpdater {
 					// difference between order of the objects
 					if (complexField.getATTRIBUTE_NAME().equals(key)
 							&& complexField
-									.getATTRIBUTE_TYPE()
-									.equals(MetaJSONTranslator.ATTRIBUTE_TYPE_SINGLE_STR)) {
+							.getATTRIBUTE_TYPE()
+							.equals(MetaJSONTranslator.ATTRIBUTE_TYPE_SINGLE_STR)) {
 						complex = true;
 						target.put(
 								key,
@@ -161,13 +161,12 @@ public class MetaUpdater {
 	 */
 	public JSONObject updateObjectIncludingAttr(MetaModel mm,
 			JSONObject target, JSONObject updatedObject, int inclMetaAttr)
-			throws UpdaterException {
-		JSONObject cloneTargetForKeys = new JSONObject(target.toString());
-		Iterator<?> keys = cloneTargetForKeys.keys();
+					throws UpdaterException {
+		Iterator<String> keys = mm.getFIELDS_ALL().iterator();
 
 		// Iterate over attributes of original object
 		while (keys.hasNext()) {
-			String key = (String) keys.next();
+			String key = keys.next();
 
 			// Skip read only and id fields
 			if (!mm.getFIELDS_READ_ONLY().contains(key)
@@ -179,7 +178,7 @@ public class MetaUpdater {
 						&& (!updatedObject.has(key)
 								|| updatedObject.get(key) == null || updatedObject
 								.get(key).toString().equals(""))
-						&& (target.get(key) != null || !target.get(key)
+								&& (target.get(key) != null || !target.get(key)
 								.toString().equals(""))) {
 					throw new UpdaterException("Can not update field '" + key
 							+ "' of origin object by null ");
@@ -196,8 +195,8 @@ public class MetaUpdater {
 					// difference between order of the objects
 					if (complexField.getATTRIBUTE_NAME().equals(key)
 							&& complexField
-									.getATTRIBUTE_TYPE()
-									.equals(MetaJSONTranslator.ATTRIBUTE_TYPE_SINGLE_STR)) {
+							.getATTRIBUTE_TYPE()
+							.equals(MetaJSONTranslator.ATTRIBUTE_TYPE_SINGLE_STR)) {
 						complex = true;
 						target.put(
 								key,
