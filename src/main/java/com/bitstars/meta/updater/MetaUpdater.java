@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import com.bitstars.meta.annotation.MetaJSONTranslator;
 import com.bitstars.meta.annotation.MetaModel;
+import com.bitstars.meta.annotation.MetaModelCompex;
 import com.bitstars.meta.exceptions.UpdaterException;
 import com.bitstars.meta.parsers.DataParser;
 import com.bitstars.meta.parsers.MetaParser;
@@ -105,8 +106,7 @@ public class MetaUpdater {
 
 				boolean complex = false;
 				// Check if attribute is complex
-				for (MetaModel.MetaComplexModel complexField : mm
-						.getFIELDS_COMPLEX()) {
+				for (MetaModelCompex complexField : mm.getFIELDS_COMPLEX()) {
 
 					// Only the single complex objects will be updated regarding
 					// its MetaAttr. The collection of complex objects will be
@@ -186,8 +186,7 @@ public class MetaUpdater {
 
 				boolean complex = false;
 				// Check if attribute is complex
-				for (MetaModel.MetaComplexModel complexField : mm
-						.getFIELDS_COMPLEX()) {
+				for (MetaModelCompex complexField : mm.getFIELDS_COMPLEX()) {
 
 					// Only the single complex objects will be updated regarding
 					// its MetaAttr. The collection of complex objects will be

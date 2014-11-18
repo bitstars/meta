@@ -17,6 +17,7 @@ public class MetaModel {
 	private List<String> TYPE_DATE_LONG;
 	private List<String> TYPE_SKIP_META;
 	private List<String> TYPE_BOOLEAN;
+	private List<String> TYPE_SIMPLE_COLLECTION;
 
 	private List<String> FIELDS_ALL;
 	private List<String> FIELDS_READ_ONLY;
@@ -30,7 +31,7 @@ public class MetaModel {
 
 	private List<Map<String, String>> FIELDS_REGEX;
 
-	private List<MetaComplexModel> FIELDS_COMPLEX;
+	private List<MetaModelCompex> FIELDS_COMPLEX;
 
 	public MetaModel() {
 		CLASS_NAME = "";
@@ -39,6 +40,7 @@ public class MetaModel {
 		TYPE_DATE_LONG = new ArrayList<String>();
 		TYPE_SKIP_META = new ArrayList<String>();
 		TYPE_BOOLEAN = new ArrayList<String>();
+		TYPE_SIMPLE_COLLECTION = new ArrayList<String>();
 
 		FIELDS_ALL = new ArrayList<String>();
 		FIELDS_READ_ONLY = new ArrayList<String>();
@@ -52,43 +54,8 @@ public class MetaModel {
 
 		FIELDS_REGEX = new ArrayList<Map<String, String>>();
 
-		FIELDS_COMPLEX = new ArrayList<MetaModel.MetaComplexModel>();
-	}
+		FIELDS_COMPLEX = new ArrayList<MetaModelCompex>();
 
-	public class MetaComplexModel {
-		private String ATTRIBUTE_NAME;
-		private String ATTRIBUTE_TYPE;
-		private MetaModel META_DATA;
-
-		public MetaComplexModel() {
-			ATTRIBUTE_NAME = "";
-			ATTRIBUTE_TYPE = "";
-			META_DATA = new MetaModel();
-		}
-
-		public String getATTRIBUTE_NAME() {
-			return ATTRIBUTE_NAME;
-		}
-
-		public void setATTRIBUTE_NAME(String aTTRIBUTE_NAME) {
-			ATTRIBUTE_NAME = aTTRIBUTE_NAME;
-		}
-
-		public String getATTRIBUTE_TYPE() {
-			return ATTRIBUTE_TYPE;
-		}
-
-		public void setATTRIBUTE_TYPE(String aTTRIBUTE_TYPE) {
-			ATTRIBUTE_TYPE = aTTRIBUTE_TYPE;
-		}
-
-		public MetaModel getMETA_DATA() {
-			return META_DATA;
-		}
-
-		public void setMETA_DATA(MetaModel mETA_DATA) {
-			META_DATA = mETA_DATA;
-		}
 	}
 
 	public String getCLASS_NAME() {
@@ -187,11 +154,11 @@ public class MetaModel {
 		FIELDS_PUBLIC = fIELDS_PUBLIC;
 	}
 
-	public List<MetaComplexModel> getFIELDS_COMPLEX() {
+	public List<MetaModelCompex> getFIELDS_COMPLEX() {
 		return FIELDS_COMPLEX;
 	}
 
-	public void setFIELDS_COMPLEX(List<MetaComplexModel> fIELDS_COMPLEX) {
+	public void setFIELDS_COMPLEX(List<MetaModelCompex> fIELDS_COMPLEX) {
 		FIELDS_COMPLEX = fIELDS_COMPLEX;
 	}
 
@@ -221,6 +188,15 @@ public class MetaModel {
 
 	public void setFIELDS_ADMIN(List<String> fIELDS_ADMIN) {
 		FIELDS_ADMIN = fIELDS_ADMIN;
+	}
+
+	public List<String> getTYPE_SIMPLE_COLLECTION_STR() {
+		return TYPE_SIMPLE_COLLECTION;
+	}
+
+	public void setTYPE_SIMPLE_COLLECTION_STR(
+			List<String> tYPE_SIMPLE_COLLECTION_STR) {
+		TYPE_SIMPLE_COLLECTION = tYPE_SIMPLE_COLLECTION_STR;
 	}
 
 }

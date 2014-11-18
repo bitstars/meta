@@ -6,6 +6,7 @@ public class MetaJSONTranslator {
 	public static final String TYPE_URL_IMAGE_STR = "TYPE_URL_IMAGE";
 	public static final String TYPE_DATE_LONG_STR = "TYPE_DATE_LONG";
 	public static final String TYPE_BOOLEAN_STR = "TYPE_BOOLEAN";
+	public static final String TYPE_SIMPLE_COLLECTION_STR = "TYPE_SIMPLE_COLLECTION";
 
 	// By adding of new field descriptors this array should be also extends with
 	// it new attributes. The order is not important
@@ -13,8 +14,7 @@ public class MetaJSONTranslator {
 			MetaAttr.FIELDS_UNIQ_IN_SCOPE, MetaAttr.FIELDS_TRANSIENT,
 			MetaAttr.TYPE_DATE_LONG, MetaAttr.TYPE_ID, MetaAttr.TYPE_URL_IMAGE,
 			MetaAttr.FIELDS_PRIVATE, MetaAttr.FIELDS_PUBLIC,
-			MetaAttr.FIELDS_NOT_NULL, MetaAttr.TYPE_BOOLEAN,
-			MetaAttr.FIELDS_ADMIN };
+			MetaAttr.FIELDS_NOT_NULL, MetaAttr.TYPE_BOOLEAN };
 
 	// Main meta descriptor
 	public static final String META_DATA_STR = "META_DATA";

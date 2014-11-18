@@ -10,7 +10,7 @@ import org.json.JSONObject;
 
 import com.bitstars.meta.annotation.MetaJSONTranslator;
 import com.bitstars.meta.annotation.MetaModel;
-import com.bitstars.meta.annotation.MetaModel.MetaComplexModel;
+import com.bitstars.meta.annotation.MetaModelCompex;
 import com.bitstars.meta.exceptions.ValidatorException;
 import com.bitstars.meta.parsers.DataParser;
 import com.bitstars.meta.parsers.MetaParser;
@@ -96,7 +96,7 @@ public class MetaValidator {
 		}
 
 		// Check recursively complex fields
-		for (MetaComplexModel complexField : mm.getFIELDS_COMPLEX()) {
+		for (MetaModelCompex complexField : mm.getFIELDS_COMPLEX()) {
 			if (!jo.isNull(complexField.getATTRIBUTE_NAME())) {
 				if (complexField.getATTRIBUTE_TYPE().equals(
 						MetaJSONTranslator.ATTRIBUTE_TYPE_SINGLE_STR)) {

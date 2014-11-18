@@ -144,7 +144,7 @@ public class MetaParser {
 									((Class<?>) ((ParameterizedType) field
 											.getGenericType())
 											.getActualTypeArguments()[0]),
-									field.getName(), true);
+											field.getName(), true);
 
 							if (!cc.isInterface()) {
 								complexeClasses.add(cc);
@@ -170,6 +170,13 @@ public class MetaParser {
 									field.getName());
 						}
 					}
+
+					// check if collection
+					if (isCollection(field.getType())) {
+						appendAsArray(result,
+								MetaJSONTranslator.TYPE_SIMPLE_COLLECTION_STR,
+								field.getName());
+					}
 				} catch (JSONException e) {
 					e.printStackTrace();
 					return null;
@@ -188,13 +195,13 @@ public class MetaParser {
 							result,
 							MetaJSONTranslator.FIELDS_COMPLEX_STR,
 							(new JSONObject()
-									.put(MetaJSONTranslator.ATTRIBUTE_NAME_STR,
-											cClass.fieldName)
+							.put(MetaJSONTranslator.ATTRIBUTE_NAME_STR,
+									cClass.fieldName)
 									.put(MetaJSONTranslator.ATTRIBUTE_TYPE_STR,
 											(cClass.collection ? MetaJSONTranslator.ATTRIBUTE_TYPE_COLLECTION_STR
 													: MetaJSONTranslator.ATTRIBUTE_TYPE_SINGLE_STR))
-									.put(MetaJSONTranslator.META_DATA_STR,
-											getMetaAsJSON(cClass.clazz))));
+													.put(MetaJSONTranslator.META_DATA_STR,
+															getMetaAsJSON(cClass.clazz))));
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
@@ -544,7 +551,7 @@ public class MetaParser {
 									((Class<?>) ((ParameterizedType) field
 											.getGenericType())
 											.getActualTypeArguments()[0]),
-									field.getName(), true);
+											field.getName(), true);
 
 							if (!cc.isInterface()) {
 								complexeClasses.add(cc);
@@ -570,6 +577,13 @@ public class MetaParser {
 									field.getName());
 						}
 					}
+
+					// check if collection
+					if (isCollection(field.getType())) {
+						appendAsArray(result,
+								MetaJSONTranslator.TYPE_SIMPLE_COLLECTION_STR,
+								field.getName());
+					}
 				} catch (JSONException e) {
 					e.printStackTrace();
 					return null;
@@ -588,13 +602,13 @@ public class MetaParser {
 							result,
 							MetaJSONTranslator.FIELDS_COMPLEX_STR,
 							(new JSONObject()
-									.put(MetaJSONTranslator.ATTRIBUTE_NAME_STR,
-											cClass.fieldName)
+							.put(MetaJSONTranslator.ATTRIBUTE_NAME_STR,
+									cClass.fieldName)
 									.put(MetaJSONTranslator.ATTRIBUTE_TYPE_STR,
 											(cClass.collection ? MetaJSONTranslator.ATTRIBUTE_TYPE_COLLECTION_STR
 													: MetaJSONTranslator.ATTRIBUTE_TYPE_SINGLE_STR))
-									.put(MetaJSONTranslator.META_DATA_STR,
-											getMetaAsJSON(cClass.clazz))));
+													.put(MetaJSONTranslator.META_DATA_STR,
+															getMetaAsJSON(cClass.clazz))));
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
