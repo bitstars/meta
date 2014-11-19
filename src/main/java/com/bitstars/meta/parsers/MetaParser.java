@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.json.JSONArray;
@@ -177,6 +178,13 @@ public class MetaParser {
 								MetaJSONTranslator.TYPE_SIMPLE_COLLECTION_STR,
 								field.getName());
 					}
+
+					// check if map
+					if (isMap(field.getType())) {
+						appendAsArray(result,
+								MetaJSONTranslator.TYPE_SIMPLE_MAP_STR,
+								field.getName());
+					}
 				} catch (JSONException e) {
 					e.printStackTrace();
 					return null;
@@ -209,6 +217,13 @@ public class MetaParser {
 		}
 
 		return result;
+	}
+
+	private boolean isMap(Class<?> type) {
+		if (type.equals(Map.class)) {
+			return true;
+		}
+		return false;
 	}
 
 	private boolean notContainName(List<Field> allFields, Field field) {

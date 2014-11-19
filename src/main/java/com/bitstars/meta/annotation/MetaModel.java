@@ -18,6 +18,7 @@ public class MetaModel {
 	private List<String> TYPE_SKIP_META;
 	private List<String> TYPE_BOOLEAN;
 	private List<String> TYPE_SIMPLE_COLLECTION;
+	private List<String> TYPE_SIMPLE_MAP;
 
 	private List<String> FIELDS_ALL;
 	private List<String> FIELDS_READ_ONLY;
@@ -41,6 +42,7 @@ public class MetaModel {
 		TYPE_SKIP_META = new ArrayList<String>();
 		TYPE_BOOLEAN = new ArrayList<String>();
 		TYPE_SIMPLE_COLLECTION = new ArrayList<String>();
+		TYPE_SIMPLE_MAP = new ArrayList<String>();
 
 		FIELDS_ALL = new ArrayList<String>();
 		FIELDS_READ_ONLY = new ArrayList<String>();
@@ -197,6 +199,14 @@ public class MetaModel {
 	public void setTYPE_SIMPLE_COLLECTION_STR(
 			List<String> tYPE_SIMPLE_COLLECTION_STR) {
 		TYPE_SIMPLE_COLLECTION = tYPE_SIMPLE_COLLECTION_STR;
+	}
+
+	public List<String> getTYPE_SIMPLE_MAP() {
+		return TYPE_SIMPLE_MAP;
+	}
+
+	public void setTYPE_SIMPLE_MAP(List<String> tYPE_SIMPLE_MAP) {
+		TYPE_SIMPLE_MAP = tYPE_SIMPLE_MAP;
 	}
 
 }

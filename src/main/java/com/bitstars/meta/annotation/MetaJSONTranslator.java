@@ -7,6 +7,7 @@ public class MetaJSONTranslator {
 	public static final String TYPE_DATE_LONG_STR = "TYPE_DATE_LONG";
 	public static final String TYPE_BOOLEAN_STR = "TYPE_BOOLEAN";
 	public static final String TYPE_SIMPLE_COLLECTION_STR = "TYPE_SIMPLE_COLLECTION";
+	public static final String TYPE_SIMPLE_MAP_STR = "TYPE_SIMPLE_MAP";
 
 	// By adding of new field descriptors this array should be also extends with
 	// it new attributes. The order is not important
