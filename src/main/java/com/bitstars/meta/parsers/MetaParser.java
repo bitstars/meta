@@ -172,8 +172,8 @@ public class MetaParser {
 						}
 					}
 
-					// check if collection
-					if (isCollection(field.getType())) {
+					// check if collection and primitive
+					if (isCollection(field.getType()) && isPrimitive(field)) {
 						appendAsArray(result,
 								MetaJSONTranslator.TYPE_SIMPLE_COLLECTION_STR,
 								field.getName());

@@ -14,6 +14,7 @@ import com.bitstars.meta.exceptions.UpdaterException;
 import com.bitstars.meta.parsers.DataParser;
 import com.bitstars.meta.parsers.MetaParser;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 /**
  * This tool is used for update of objects
@@ -36,7 +37,7 @@ public class MetaUpdater {
 	 * @throws UpdaterException
 	 */
 	public <T> T updateObject(T target, JSONObject updatedObject)
-			throws UpdaterException {
+			throws UpdaterException, JsonSyntaxException {
 		MetaModel mm = new MetaParser().getMetaAsObject(target);
 		JSONObject jo1 = new DataParser().parseSingleObject(target);
 
@@ -81,12 +82,11 @@ public class MetaUpdater {
 	 */
 	public JSONObject updateObject(MetaModel mm, JSONObject target,
 			JSONObject updatedObject) throws UpdaterException {
-		JSONObject cloneTargetForKeys = new JSONObject(target.toString());
-		Iterator<?> keys = cloneTargetForKeys.keys();
+		Iterator<String> keys = mm.getFIELDS_ALL().iterator();
 
 		// Iterate over attributes of original object
 		while (keys.hasNext()) {
-			String key = (String) keys.next();
+			String key = keys.next();
 
 			// Skip read only and id fields
 			if (!mm.getFIELDS_READ_ONLY().contains(key)
@@ -98,7 +98,7 @@ public class MetaUpdater {
 						&& (!updatedObject.has(key)
 								|| updatedObject.get(key) == null || updatedObject
 								.get(key).toString().equals(""))
-								&& (target.get(key) != null || !target.get(key)
+						&& (target.get(key) != null || !target.get(key)
 								.toString().equals(""))) {
 					throw new UpdaterException("Can not update field '" + key
 							+ "' of origin object by null ");
@@ -114,8 +114,8 @@ public class MetaUpdater {
 					// difference between order of the objects
 					if (complexField.getATTRIBUTE_NAME().equals(key)
 							&& complexField
-							.getATTRIBUTE_TYPE()
-							.equals(MetaJSONTranslator.ATTRIBUTE_TYPE_SINGLE_STR)) {
+									.getATTRIBUTE_TYPE()
+									.equals(MetaJSONTranslator.ATTRIBUTE_TYPE_SINGLE_STR)) {
 						complex = true;
 						target.put(
 								key,
@@ -129,12 +129,17 @@ public class MetaUpdater {
 					// check if field has a regex
 					for (Map<String, String> map : mm.getFIELDS_REGEX()) {
 						if (map.containsKey(key)) {
-							if (!checkRegex(updatedObject.get(key).toString(),
-									map.get(key))) {
-								throw new UpdaterException("Key '" + key
-										+ "' has a regex '" + map.get(key)
-										+ "' which is not matched by value '"
-										+ updatedObject.get(key) + "'");
+							if (updatedObject.has(key)
+									&& !checkRegex(updatedObject.get(key)
+											.toString(), map.get(key))) {
+								throw new UpdaterException(
+										"Key '"
+												+ key
+												+ "' has a regex '"
+												+ map.get(key)
+												+ "' which is not matched by value '"
+												+ (updatedObject.has(key) ? updatedObject
+														.get(key) : "") + "'");
 							}
 						}
 					}
@@ -161,7 +166,7 @@ public class MetaUpdater {
 	 */
 	public JSONObject updateObjectIncludingAttr(MetaModel mm,
 			JSONObject target, JSONObject updatedObject, int inclMetaAttr)
-					throws UpdaterException {
+			throws UpdaterException {
 		Iterator<String> keys = mm.getFIELDS_ALL().iterator();
 
 		// Iterate over attributes of original object
@@ -178,7 +183,7 @@ public class MetaUpdater {
 						&& (!updatedObject.has(key)
 								|| updatedObject.get(key) == null || updatedObject
 								.get(key).toString().equals(""))
-								&& (target.get(key) != null || !target.get(key)
+						&& (target.get(key) != null || !target.get(key)
 								.toString().equals(""))) {
 					throw new UpdaterException("Can not update field '" + key
 							+ "' of origin object by null ");
@@ -194,8 +199,8 @@ public class MetaUpdater {
 					// difference between order of the objects
 					if (complexField.getATTRIBUTE_NAME().equals(key)
 							&& complexField
-							.getATTRIBUTE_TYPE()
-							.equals(MetaJSONTranslator.ATTRIBUTE_TYPE_SINGLE_STR)) {
+									.getATTRIBUTE_TYPE()
+									.equals(MetaJSONTranslator.ATTRIBUTE_TYPE_SINGLE_STR)) {
 						complex = true;
 						target.put(
 								key,
@@ -209,12 +214,18 @@ public class MetaUpdater {
 					// check if field has a regex
 					for (Map<String, String> map : mm.getFIELDS_REGEX()) {
 						if (map.containsKey(key)) {
-							if (!checkRegex(updatedObject.get(key).toString(),
-									map.get(key))) {
-								throw new UpdaterException("Key '" + key
-										+ "' has a regex '" + map.get(key)
-										+ "' which is not matched by value '"
-										+ updatedObject.get(key) + "'");
+
+							if (updatedObject.has(key)
+									&& !checkRegex(updatedObject.get(key)
+											.toString(), map.get(key))) {
+								throw new UpdaterException(
+										"Key '"
+												+ key
+												+ "' has a regex '"
+												+ map.get(key)
+												+ "' which is not matched by value '"
+												+ (updatedObject.has(key) ? updatedObject
+														.get(key) : "") + "'");
 							}
 						}
 					}
