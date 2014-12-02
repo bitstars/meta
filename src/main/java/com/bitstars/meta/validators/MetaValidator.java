@@ -6,6 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.bitstars.meta.annotation.MetaJSONTranslator;
@@ -58,67 +59,88 @@ public class MetaValidator {
 		// Iterate over object attributes
 		while (keys.hasNext()) {
 			String key = (String) keys.next();
-
 			if (!mm.getFIELDS_ALL().contains(key)) {
-
 				// If the object has other attributes that its meta model than
 				// it is invalid
 				throw new ValidatorException("Key '" + key
 						+ "' is not contained in meta model " + mm.toJSON());
 			}
-
-			// Value of the attribute that will be checked
-			Object value = jo.get(key);
-
-			for (Map<String, String> regexMap : mm.getFIELDS_REGEX()) {
-				if (regexMap.containsKey(key)) {
-
-					// if the attribute that will be checked has a regex
-					// expression
-					String regex = regexMap.get(key);
-					if (!checkRegex(value.toString(), regex)) {
-						throw new ValidatorException("Key '" + key
-								+ "' and its value '" + value.toString()
-								+ "' are not match regex '" + regex + "'");
-					}
-				}
+			try {
+				checkValueForKey(mm, jo, key);
+			} catch (JSONException e) {
+				e.printStackTrace();
 			}
-
 		}
 
 		// Check NOT_NULL fields
 		for (String notNull : mm.getFIELDS_NOT_NULL()) {
-			if (!jo.has(notNull) || jo.isNull(notNull)
-					|| jo.get(notNull).toString().equals("")) {
-				throw new ValidatorException("Value of key '" + notNull
-						+ "' cannot be null");
+			try {
+				if (!jo.has(notNull) || jo.isNull(notNull)
+						|| jo.get(notNull).toString().equals("")) {
+					throw new ValidatorException("Value of key '" + notNull
+							+ "' cannot be null");
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
 			}
 		}
 
 		// Check recursively complex fields
 		for (MetaModelCompex complexField : mm.getFIELDS_COMPLEX()) {
-			if (!jo.isNull(complexField.getATTRIBUTE_NAME())) {
-				if (complexField.getATTRIBUTE_TYPE().equals(
-						MetaJSONTranslator.ATTRIBUTE_TYPE_SINGLE_STR)) {
+			try {
+				if (!checkComplexField(jo, complexField)) {
+					return false;
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		return true;
+	}
+
+	private boolean checkComplexField(JSONObject jo,
+			MetaModelCompex complexField) throws ValidatorException,
+			JSONException {
+		if (!jo.isNull(complexField.getATTRIBUTE_NAME())) {
+			if (complexField.getATTRIBUTE_TYPE().equals(
+					MetaJSONTranslator.ATTRIBUTE_TYPE_SINGLE_STR)) {
+				if (!isValidObject(complexField.getMETA_DATA(),
+						jo.getJSONObject(complexField.getATTRIBUTE_NAME()))) {
+					return false;
+				}
+			} else if (complexField.getATTRIBUTE_TYPE().equals(
+					MetaJSONTranslator.ATTRIBUTE_TYPE_COLLECTION_STR)) {
+				JSONArray ja = jo
+						.getJSONArray(complexField.getATTRIBUTE_NAME());
+				for (int i = 0; i < ja.length(); i++) {
 					if (!isValidObject(complexField.getMETA_DATA(),
-							jo.getJSONObject(complexField.getATTRIBUTE_NAME()))) {
+							ja.getJSONObject(i))) {
 						return false;
-					}
-				} else if (complexField.getATTRIBUTE_TYPE().equals(
-						MetaJSONTranslator.ATTRIBUTE_TYPE_COLLECTION_STR)) {
-					JSONArray ja = jo.getJSONArray(complexField
-							.getATTRIBUTE_NAME());
-					for (int i = 0; i < ja.length(); i++) {
-						if (!isValidObject(complexField.getMETA_DATA(),
-								ja.getJSONObject(i))) {
-							return false;
-						}
 					}
 				}
 			}
 		}
-
 		return true;
+	}
+
+	private void checkValueForKey(MetaModel mm, JSONObject jo, String key)
+			throws JSONException, ValidatorException {
+		// Value of the attribute that will be checked
+		Object value = jo.get(key);
+
+		for (Map<String, String> regexMap : mm.getFIELDS_REGEX()) {
+			if (regexMap.containsKey(key)) {
+
+				// if the attribute that will be checked has a regex
+				// expression
+				String regex = regexMap.get(key);
+				if (!checkRegex(value.toString(), regex)) {
+					throw new ValidatorException("Key '" + key
+							+ "' and its value '" + value.toString()
+							+ "' are not match regex '" + regex + "'");
+				}
+			}
+		}
 	}
 
 	/**

@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.bitstars.meta.annotation.MetaJSONTranslator;
@@ -87,67 +88,14 @@ public class MetaUpdater {
 		// Iterate over attributes of original object
 		while (keys.hasNext()) {
 			String key = keys.next();
-
 			// Skip read only and id fields
 			if (!mm.getFIELDS_READ_ONLY().contains(key)
 					&& !mm.getTYPE_ID().equals(key)) {
-
-				// Check fields NOT_NULL
-
-				if (mm.getFIELDS_NOT_NULL().contains(key)
-						&& (!updatedObject.has(key)
-								|| updatedObject.get(key) == null || updatedObject
-								.get(key).toString().equals(""))
-						&& (target.get(key) != null || !target.get(key)
-								.toString().equals(""))) {
-					throw new UpdaterException("Can not update field '" + key
-							+ "' of origin object by null ");
+				try {
+					updateField(mm, target, updatedObject, key);
+				} catch (JSONException e) {
+					e.printStackTrace();
 				}
-
-				boolean complex = false;
-				// Check if attribute is complex
-				for (MetaModelCompex complexField : mm.getFIELDS_COMPLEX()) {
-
-					// Only the single complex objects will be updated regarding
-					// its MetaAttr. The collection of complex objects will be
-					// just completely replaced, because it is not possible to
-					// difference between order of the objects
-					if (complexField.getATTRIBUTE_NAME().equals(key)
-							&& complexField
-									.getATTRIBUTE_TYPE()
-									.equals(MetaJSONTranslator.ATTRIBUTE_TYPE_SINGLE_STR)) {
-						complex = true;
-						target.put(
-								key,
-								updateObject(complexField.getMETA_DATA(),
-										target.getJSONObject(key),
-										updatedObject.getJSONObject(key)));
-					}
-				}
-
-				if (!complex) {
-					// check if field has a regex
-					for (Map<String, String> map : mm.getFIELDS_REGEX()) {
-						if (map.containsKey(key)) {
-							if (updatedObject.has(key)
-									&& !checkRegex(updatedObject.get(key)
-											.toString(), map.get(key))) {
-								throw new UpdaterException(
-										"Key '"
-												+ key
-												+ "' has a regex '"
-												+ map.get(key)
-												+ "' which is not matched by value '"
-												+ (updatedObject.has(key) ? updatedObject
-														.get(key) : "") + "'");
-							}
-						}
-					}
-					if (updatedObject.has(key)) {
-						target.put(key, updatedObject.get(key));
-					}
-				}
-
 			}
 		}
 		return target;
@@ -177,66 +125,69 @@ public class MetaUpdater {
 			if (!mm.getFIELDS_READ_ONLY().contains(key)
 					&& !mm.getTYPE_ID().equals(key)
 					&& ((MetaJSONTranslator.getMetaAttrTypeOfField(mm, key) & inclMetaAttr) != 0)) {
-
-				// Check fields NOT_NULL
-				if (mm.getFIELDS_NOT_NULL().contains(key)
-						&& (!updatedObject.has(key)
-								|| updatedObject.get(key) == null || updatedObject
-								.get(key).toString().equals(""))
-						&& (target.get(key) != null || !target.get(key)
-								.toString().equals(""))) {
-					throw new UpdaterException("Can not update field '" + key
-							+ "' of origin object by null ");
+				try {
+					updateField(mm, target, updatedObject, key);
+				} catch (JSONException e) {
+					e.printStackTrace();
 				}
-
-				boolean complex = false;
-				// Check if attribute is complex
-				for (MetaModelCompex complexField : mm.getFIELDS_COMPLEX()) {
-
-					// Only the single complex objects will be updated regarding
-					// its MetaAttr. The collection of complex objects will be
-					// just completely replaced, because it is not possible to
-					// difference between order of the objects
-					if (complexField.getATTRIBUTE_NAME().equals(key)
-							&& complexField
-									.getATTRIBUTE_TYPE()
-									.equals(MetaJSONTranslator.ATTRIBUTE_TYPE_SINGLE_STR)) {
-						complex = true;
-						target.put(
-								key,
-								updateObject(complexField.getMETA_DATA(),
-										target.getJSONObject(key),
-										updatedObject.getJSONObject(key)));
-					}
-				}
-
-				if (!complex) {
-					// check if field has a regex
-					for (Map<String, String> map : mm.getFIELDS_REGEX()) {
-						if (map.containsKey(key)) {
-
-							if (updatedObject.has(key)
-									&& !checkRegex(updatedObject.get(key)
-											.toString(), map.get(key))) {
-								throw new UpdaterException(
-										"Key '"
-												+ key
-												+ "' has a regex '"
-												+ map.get(key)
-												+ "' which is not matched by value '"
-												+ (updatedObject.has(key) ? updatedObject
-														.get(key) : "") + "'");
-							}
-						}
-					}
-					if (updatedObject.has(key)) {
-						target.put(key, updatedObject.get(key));
-					}
-				}
-
 			}
 		}
 		return target;
+	}
+
+	private void updateField(MetaModel mm, JSONObject target,
+			JSONObject updatedObject, String key) throws JSONException,
+			UpdaterException {
+		boolean hasKey = updatedObject.has(key);
+		// Check fields NOT_NULL
+
+		if (mm.getFIELDS_NOT_NULL().contains(key)
+				&& (!hasKey || updatedObject.get(key) == null || updatedObject
+						.get(key).toString().equals(""))
+				&& (target.get(key) != null || !target.get(key).toString()
+						.equals(""))) {
+			throw new UpdaterException("Can not update field '" + key
+					+ "' of origin object by null ");
+		}
+
+		boolean complex = false;
+		// Check if attribute is complex
+		for (MetaModelCompex complexField : mm.getFIELDS_COMPLEX()) {
+
+			// Only the single complex objects will be updated regarding
+			// its MetaAttr. The collection of complex objects will be
+			// just completely replaced, because it is not possible to
+			// difference between order of the objects
+			if (complexField.getATTRIBUTE_NAME().equals(key)
+					&& complexField.getATTRIBUTE_TYPE().equals(
+							MetaJSONTranslator.ATTRIBUTE_TYPE_SINGLE_STR)) {
+				complex = true;
+				target.put(
+						key,
+						updateObject(complexField.getMETA_DATA(),
+								target.getJSONObject(key),
+								updatedObject.getJSONObject(key)));
+			}
+		}
+
+		if (!complex) {
+			// check if field has a regex
+			for (Map<String, String> map : mm.getFIELDS_REGEX()) {
+				if (map.containsKey(key)) {
+					if (hasKey
+							&& !checkRegex(updatedObject.get(key).toString(),
+									map.get(key))) {
+						throw new UpdaterException("Key '" + key
+								+ "' has a regex '" + map.get(key)
+								+ "' which is not matched by value '"
+								+ (hasKey ? updatedObject.get(key) : "") + "'");
+					}
+				}
+			}
+			if (hasKey) {
+				target.put(key, updatedObject.get(key));
+			}
+		}
 	}
 
 	/**

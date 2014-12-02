@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.google.gson.Gson;
@@ -165,7 +166,11 @@ public class MetaModel {
 	}
 
 	public JSONObject toJSON() {
-		return new JSONObject(new Gson().toJson(this));
+		try {
+			return new JSONObject(new Gson().toJson(this));
+		} catch (JSONException e) {
+			return null;
+		}
 	}
 
 	public List<Map<String, String>> getFIELDS_REGEX() {

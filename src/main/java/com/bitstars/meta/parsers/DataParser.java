@@ -1,6 +1,7 @@
 package com.bitstars.meta.parsers;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.bitstars.meta.annotation.MetaAttr;
@@ -29,13 +30,14 @@ public class DataParser {
 	 *
 	 */
 	private static class CommonIxclusionPrivateStrategy implements
-	ExclusionStrategy {
+			ExclusionStrategy {
 		int includedAttr;
 
 		public CommonIxclusionPrivateStrategy(int metaAttributes) {
 			includedAttr = metaAttributes;
 		}
 
+		@Override
 		public boolean shouldSkipField(FieldAttributes f) {
 			if (f.getAnnotation(MetaAttr.class) != null) {
 				MetaAttr attr = f.getAnnotation(MetaAttr.class);
@@ -48,6 +50,7 @@ public class DataParser {
 			return true;
 		}
 
+		@Override
 		public boolean shouldSkipClass(Class<?> clazz) {
 			return false;
 		}
@@ -61,13 +64,14 @@ public class DataParser {
 	 *
 	 */
 	private static class CommonExclusionPrivateStrategy implements
-	ExclusionStrategy {
+			ExclusionStrategy {
 		int excludedAttr;
 
 		public CommonExclusionPrivateStrategy(int metaAttributes) {
 			excludedAttr = metaAttributes;
 		}
 
+		@Override
 		public boolean shouldSkipField(FieldAttributes f) {
 			if (f.getAnnotation(MetaAttr.class) != null) {
 				MetaAttr attr = f.getAnnotation(MetaAttr.class);
@@ -80,6 +84,7 @@ public class DataParser {
 			return false;
 		}
 
+		@Override
 		public boolean shouldSkipClass(Class<?> clazz) {
 			return false;
 		}
@@ -92,7 +97,11 @@ public class DataParser {
 	 * @return object as JSON in root
 	 */
 	public JSONObject parseSingleObject(Object object) {
-		return new JSONObject(new Gson().toJson(object));
+		try {
+			return new JSONObject(new Gson().toJson(object));
+		} catch (JSONException e) {
+			return null;
+		}
 	}
 
 	/**
@@ -107,7 +116,11 @@ public class DataParser {
 			int metaAttributes) {
 		Gson gsonParser = new GsonBuilder().setExclusionStrategies(
 				new CommonIxclusionPrivateStrategy(metaAttributes)).create();
-		return new JSONObject(gsonParser.toJson(object));
+		try {
+			return new JSONObject(gsonParser.toJson(object));
+		} catch (JSONException e) {
+			return null;
+		}
 	}
 
 	/**
@@ -122,7 +135,11 @@ public class DataParser {
 			int metaAttributes) {
 		Gson gsonParser = new GsonBuilder().setExclusionStrategies(
 				new CommonExclusionPrivateStrategy(metaAttributes)).create();
-		return new JSONObject(gsonParser.toJson(object));
+		try {
+			return new JSONObject(gsonParser.toJson(object));
+		} catch (JSONException e) {
+			return null;
+		}
 	}
 
 	/**
@@ -132,7 +149,11 @@ public class DataParser {
 	 * @return object as JSON in root
 	 */
 	public JSONArray parseCollectionObject(Object object) {
-		return new JSONArray(new Gson().toJson(object));
+		try {
+			return new JSONArray(new Gson().toJson(object));
+		} catch (JSONException e) {
+			return null;
+		}
 	}
 
 	/**
@@ -147,7 +168,11 @@ public class DataParser {
 			int metaAttributes) {
 		Gson gsonParser = new GsonBuilder().setExclusionStrategies(
 				new CommonIxclusionPrivateStrategy(metaAttributes)).create();
-		return new JSONArray(gsonParser.toJson(object));
+		try {
+			return new JSONArray(gsonParser.toJson(object));
+		} catch (JSONException e) {
+			return null;
+		}
 	}
 
 	/**
@@ -162,7 +187,11 @@ public class DataParser {
 			int metaAttributes) {
 		Gson gsonParser = new GsonBuilder().setExclusionStrategies(
 				new CommonExclusionPrivateStrategy(metaAttributes)).create();
-		return new JSONArray(gsonParser.toJson(object));
+		try {
+			return new JSONArray(gsonParser.toJson(object));
+		} catch (JSONException e) {
+			return null;
+		}
 	}
 
 }

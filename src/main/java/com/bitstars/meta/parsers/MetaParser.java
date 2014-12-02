@@ -352,9 +352,12 @@ public class MetaParser {
 					&& ((attr & MetaAttr.TYPE_ID) != 0)) {
 				// put attribute, without creating an array, because id field
 				// can be only one
-				jsonObject.put(MetaJSONTranslator.translateType(attr),
-						fieldName);
-
+				try {
+					jsonObject.put(MetaJSONTranslator.translateType(attr),
+							fieldName);
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 
