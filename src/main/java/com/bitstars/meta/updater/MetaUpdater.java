@@ -1,5 +1,6 @@
 package com.bitstars.meta.updater;
 
+import java.lang.reflect.Type;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -15,6 +16,8 @@ import com.bitstars.meta.exceptions.UpdaterException;
 import com.bitstars.meta.parsers.DataParser;
 import com.bitstars.meta.parsers.MetaParser;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.InstanceCreator;
 import com.google.gson.JsonSyntaxException;
 
 /**
@@ -37,15 +40,21 @@ public class MetaUpdater {
 	 * @return
 	 * @throws UpdaterException
 	 */
-	public <T> T updateObject(T target, JSONObject updatedObject)
+	public <T> T updateObject(final T target, JSONObject updatedObject)
 			throws UpdaterException, JsonSyntaxException {
 		MetaModel mm = new MetaParser().getMetaAsObject(target);
 		JSONObject jo1 = new DataParser().parseSingleObject(target);
-
 		JSONObject result = updateObject(mm, jo1, updatedObject);
-
-		T newOb = (T) new Gson().fromJson(result.toString(), target.getClass());
-		return newOb;
+		Gson gson = new GsonBuilder().registerTypeAdapter(target.getClass(),
+				new InstanceCreator() {
+					@Override
+					public Object createInstance(Type t) {
+						// return the same object so that it is "updated"
+						return target;
+					}
+				}).create();
+		gson.fromJson(result.toString(), target.getClass());
+		return target;
 	}
 
 	/**

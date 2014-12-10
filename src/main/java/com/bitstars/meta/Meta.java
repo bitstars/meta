@@ -1,13 +1,9 @@
 package com.bitstars.meta;
 
-import java.lang.reflect.Type;
-
 import org.json.JSONObject;
 
 import com.bitstars.meta.updater.MetaUpdater;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.InstanceCreator;
 import com.google.gson.JsonElement;
 
 public class Meta {
@@ -77,7 +73,7 @@ public class Meta {
 			if (!equalJson(updatedObj, updatedVersionAsJson)) {
 				return false;
 			}
-			return fromJsonInto(updatedObj, target);
+			return fromJsonInto(target, new JSONObject(updatedObj));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -85,18 +81,14 @@ public class Meta {
 
 	}
 
-	// TODO add to MetaUpdater class
-	public boolean fromJsonInto(String objAsJSON, final Object targetObj) {
-		Gson gson = new GsonBuilder().registerTypeAdapter(targetObj.getClass(),
-				new InstanceCreator() {
-					@Override
-					public Object createInstance(Type t) {
-						// return the same object so that it is "updated"
-						return targetObj;
-					}
-				}).create();
-		gson.fromJson(objAsJSON, targetObj.getClass());
-		return true;
+	public boolean fromJsonInto(final Object targetObj, JSONObject updatedObj) {
+		try {
+			new MetaUpdater().updateObject(targetObj, updatedObj);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 	public boolean equalJson(String a, String b) {
