@@ -195,6 +195,8 @@ public class MetaUpdater {
 			}
 			if (hasKey) {
 				target.put(key, updatedObject.get(key));
+			} else {
+				target.put(key, JSONObject.NULL);
 			}
 		}
 	}
