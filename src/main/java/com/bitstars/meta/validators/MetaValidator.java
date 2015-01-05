@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import nl.flotsam.xeger.Xeger;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -135,9 +137,19 @@ public class MetaValidator {
 				// expression
 				String regex = regexMap.get(key);
 				if (!checkRegex(value.toString(), regex)) {
+					Xeger generator = new Xeger(regex);
+					String sampleRegex = "";
+					try {
+						sampleRegex = generator.generate();
+					} catch (Exception e) {
+						// TODO: handle exception
+					}
+
 					throw new ValidatorException("Key '" + key
 							+ "' and its value '" + value.toString()
-							+ "' are not match regex '" + regex + "'");
+							+ "' are not match regex '" + regex
+							+ "'. A sample value for this regex is '"
+							+ sampleRegex + "'");
 				}
 			}
 		}
