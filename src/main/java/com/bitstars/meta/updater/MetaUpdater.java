@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import nl.flotsam.xeger.Xeger;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -186,15 +188,28 @@ public class MetaUpdater {
 					if (hasKey
 							&& !checkRegex(updatedObject.get(key).toString(),
 									map.get(key))) {
+						Xeger generator = new Xeger(map.get(key).toString());
+						String sampleRegex = "";
+						try {
+							sampleRegex = generator.generate();
+						} catch (Exception e) {
+							// Generator couldn't generate sample value for
+							// regex
+						}
+
 						throw new UpdaterException("Key '" + key
 								+ "' has a regex '" + map.get(key)
 								+ "' which is not matched by value '"
-								+ (hasKey ? updatedObject.get(key) : "") + "'");
+								+ (hasKey ? updatedObject.get(key) : "")
+								+ "'. Sample value for this regex is '"
+								+ sampleRegex + "'");
 					}
 				}
 			}
 			if (hasKey) {
 				target.put(key, updatedObject.get(key));
+			} else {
+				target.put(key, JSONObject.NULL);
 			}
 		}
 	}
