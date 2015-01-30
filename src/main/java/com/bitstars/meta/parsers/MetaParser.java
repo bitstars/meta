@@ -154,8 +154,8 @@ public class MetaParser {
 					}
 
 					// save all fields
-					result.accumulate(MetaJSONTranslator.FIELDS_ALL_STR,
-							field.getName());
+					result = appendAsArray(result,
+							MetaJSONTranslator.FIELDS_ALL_STR, field.getName());
 
 					// check annotation specific fields
 					if (field.isAnnotationPresent(MetaAttr.class)) {
