@@ -293,7 +293,7 @@ public class MetaParser {
 		allPrimitives.add(Object.class);
 		allPrimitives.add(Date.class);
 
-		return allPrimitives.contains(clazz);
+		return allPrimitives.contains(clazz) || clazz.isEnum();
 	}
 
 	private class ComplexClass {
