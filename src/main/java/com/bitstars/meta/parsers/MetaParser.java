@@ -273,6 +273,7 @@ public class MetaParser {
 		allPrimitives.add(Boolean.class);
 		allPrimitives.add(Character.class);
 		allPrimitives.add(Byte.class);
+		allPrimitives.add(Number.class);
 		allPrimitives.add(Short.class);
 		allPrimitives.add(Integer.class);
 		allPrimitives.add(Long.class);

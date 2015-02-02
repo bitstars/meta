@@ -173,11 +173,10 @@ public class MetaUpdater {
 					&& complexField.getATTRIBUTE_TYPE().equals(
 							MetaJSONTranslator.ATTRIBUTE_TYPE_SINGLE_STR)) {
 				complex = true;
-				target.put(
-						key,
-						updateObject(complexField.getMETA_DATA(),
-								target.getJSONObject(key),
-								updatedObject.getJSONObject(key)));
+				JSONObject updatedValue = updateObject(
+						complexField.getMETA_DATA(), target.getJSONObject(key),
+						updatedObject.getJSONObject(key));
+				target.put(key, updatedValue);
 			}
 		}
 
