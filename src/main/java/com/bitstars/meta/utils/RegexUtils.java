@@ -10,21 +10,21 @@ public class RegexUtils {
 	/**
 	 * TODO implement
 	 * 
-	 * “?between ”+”x y”
+	 * ï¿½?between ï¿½+ï¿½x yï¿½
 	 */
 	@Deprecated
 	public static final String betweenXY = "?between ";
 	/**
 	 * TODO implement
 	 * 
-	 * “?< “+ “x”
+	 * ï¿½?< ï¿½+ ï¿½xï¿½
 	 */
 	@Deprecated
 	public static final String smallerThanX = "?< ";
 	/**
 	 * TODO implement
 	 * 
-	 * “?>= “+”x”
+	 * ï¿½?>= ï¿½+ï¿½xï¿½
 	 */
 	@Deprecated
 	public static final String biggerThanX = "?>= ";
@@ -44,6 +44,7 @@ public class RegexUtils {
 	public static final String IP = "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
 	public static final String PHONE_NR = "^\\+?[\\d\\s]{3,}$";
 
+	public static final String NUMBER = "^[-+]?[0-9]*\\.?[0-9]+$";
 	public static final String NUMBER_INTEGER = "^-{0,1}\\d+$";
 	public static final String NUMBER_DECIMAL = "^-{0,1}\\d*\\.{0,1}\\d+$";
 	public static final String IMAGE_FILE = "([^\\s]+(\\.(?i)(jpg|png|gif|bmp))$)";

@@ -6,8 +6,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import nl.flotsam.xeger.Xeger;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -47,6 +45,18 @@ public class MetaUpdater {
 		MetaModel mm = new MetaParser().getMetaAsObject(target);
 		JSONObject jo1 = new DataParser().parseSingleObject(target);
 		JSONObject result = updateObject(mm, jo1, updatedObject);
+		writeJsonIntoObject(target, result);
+		return target;
+	}
+
+	/**
+	 * Warning: This method does not obey the meta rules! It will overwrite all
+	 * values based on the passed {@link JSONObject}
+	 * 
+	 * @param target
+	 * @param source
+	 */
+	public <T> void writeJsonIntoObject(final T target, JSONObject source) {
 		Gson gson = new GsonBuilder().registerTypeAdapter(target.getClass(),
 				new InstanceCreator() {
 					@Override
@@ -55,8 +65,7 @@ public class MetaUpdater {
 						return target;
 					}
 				}).create();
-		gson.fromJson(result.toString(), target.getClass());
-		return target;
+		gson.fromJson(source.toString(), target.getClass());
 	}
 
 	/**
@@ -187,21 +196,11 @@ public class MetaUpdater {
 					if (hasKey
 							&& !checkRegex(updatedObject.get(key).toString(),
 									map.get(key))) {
-						Xeger generator = new Xeger(map.get(key).toString());
-						String sampleRegex = "";
-						try {
-							sampleRegex = generator.generate();
-						} catch (Exception e) {
-							// Generator couldn't generate sample value for
-							// regex
-						}
 
 						throw new UpdaterException("Key '" + key
 								+ "' has a regex '" + map.get(key)
 								+ "' which is not matched by value '"
-								+ (hasKey ? updatedObject.get(key) : "")
-								+ "'. Sample value for this regex is '"
-								+ sampleRegex + "'");
+								+ (hasKey ? updatedObject.get(key) : "") + "'.");
 					}
 				}
 			}

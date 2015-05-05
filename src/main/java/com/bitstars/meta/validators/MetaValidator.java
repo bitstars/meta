@@ -5,8 +5,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import nl.flotsam.xeger.Xeger;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -49,14 +47,14 @@ public class MetaValidator {
 	 *
 	 * @param mm
 	 *            - meta model of the object
-	 * @param jo
+	 * @param json
 	 *            - the object
 	 * @return
 	 * @throws ValidatorException
 	 */
-	public boolean isValidObject(MetaModel mm, JSONObject jo)
+	public boolean isValidObject(MetaModel mm, JSONObject json)
 			throws ValidatorException {
-		Iterator<?> keys = jo.keys();
+		Iterator<?> keys = json.keys();
 
 		// Iterate over object attributes
 		while (keys.hasNext()) {
@@ -68,17 +66,19 @@ public class MetaValidator {
 						+ "' is not contained in meta model " + mm.toJSON());
 			}
 			try {
-				checkValueForKey(mm, jo, key);
+				checkValueForKey(mm, json, key);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
 		}
 
+		// TODO check if ID field is not null?
+
 		// Check NOT_NULL fields
 		for (String notNull : mm.getFIELDS_NOT_NULL()) {
 			try {
-				if (!jo.has(notNull) || jo.isNull(notNull)
-						|| jo.get(notNull).toString().equals("")) {
+				if (!json.has(notNull) || json.isNull(notNull)
+						|| json.get(notNull).toString().equals("")) {
 					throw new ValidatorException("Value of key '" + notNull
 							+ "' cannot be null");
 				}
@@ -90,7 +90,7 @@ public class MetaValidator {
 		// Check recursively complex fields
 		for (MetaModelCompex complexField : mm.getFIELDS_COMPLEX()) {
 			try {
-				if (!checkComplexField(jo, complexField)) {
+				if (!checkComplexField(json, complexField)) {
 					return false;
 				}
 			} catch (JSONException e) {
@@ -137,19 +137,9 @@ public class MetaValidator {
 				// expression
 				String regex = regexMap.get(key);
 				if (!checkRegex(value.toString(), regex)) {
-					Xeger generator = new Xeger(regex);
-					String sampleRegex = "";
-					try {
-						sampleRegex = generator.generate();
-					} catch (Exception e) {
-						// TODO: handle exception
-					}
-
 					throw new ValidatorException("Key '" + key
 							+ "' and its value '" + value.toString()
-							+ "' are not match regex '" + regex
-							+ "'. A sample value for this regex is '"
-							+ sampleRegex + "'");
+							+ "' are not match regex '" + regex + "'.");
 				}
 			}
 		}

@@ -96,7 +96,7 @@ public class DataParser {
 	 * @param object
 	 * @return object as JSON in root
 	 */
-	public JSONObject parseSingleObject(Object object) {
+	public static JSONObject parseSingleObject(Object object) {
 		try {
 			return new JSONObject(new Gson().toJson(object));
 		} catch (JSONException e) {
