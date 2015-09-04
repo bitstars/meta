@@ -1,7 +1,5 @@
 package com.bitstars.meta.tests;
 
-import junit.framework.TestCase;
-
 import org.junit.Test;
 
 import com.bitstars.meta.Meta;
@@ -9,12 +7,13 @@ import com.bitstars.meta.Meta.MetaListener;
 import com.bitstars.meta.annotation.MetaAttr;
 import com.bitstars.meta.utils.RegexUtils;
 
+import junit.framework.TestCase;
+
 public class MetaTests extends TestCase {
 
 	public class ExampleClass {
 
-		@MetaAttr(type = MetaAttr.TYPE_ID + MetaAttr.FIELDS_READ_ONLY
-				+ MetaAttr.FIELDS_UNIQ_IN_SCOPE)
+		@MetaAttr(type = MetaAttr.TYPE_ID + MetaAttr.FIELDS_READ_ONLY + MetaAttr.FIELDS_UNIQ_IN_SCOPE)
 		private long id;
 
 		@MetaAttr(regex = "YES|MAYBE|NO")
@@ -31,13 +30,11 @@ public class MetaTests extends TestCase {
 
 		Meta meta = new Meta(new MetaListener() {
 
-			@Override
 			public void showWarningMsg(String msg) {
 				// TODO Auto-generated method stub
 
 			}
 
-			@Override
 			public void showErrorMsg(String msg) {
 				fail();
 			}

@@ -40,8 +40,7 @@ public class MetaUpdater {
 	 * @return
 	 * @throws UpdaterException
 	 */
-	public <T> T updateObject(final T target, JSONObject updatedObject)
-			throws UpdaterException, JsonSyntaxException {
+	public <T> T updateObject(final T target, JSONObject updatedObject) throws UpdaterException, JsonSyntaxException {
 		MetaModel mm = new MetaParser().getMetaAsObject(target);
 		JSONObject jo1 = new DataParser().parseSingleObject(target);
 		JSONObject result = updateObject(mm, jo1, updatedObject);
@@ -52,19 +51,17 @@ public class MetaUpdater {
 	/**
 	 * Warning: This method does not obey the meta rules! It will overwrite all
 	 * values based on the passed {@link JSONObject}
-	 * 
+	 *
 	 * @param target
 	 * @param source
 	 */
 	public <T> void writeJsonIntoObject(final T target, JSONObject source) {
-		Gson gson = new GsonBuilder().registerTypeAdapter(target.getClass(),
-				new InstanceCreator() {
-					@Override
-					public Object createInstance(Type t) {
-						// return the same object so that it is "updated"
-						return target;
-					}
-				}).create();
+		Gson gson = new GsonBuilder().registerTypeAdapter(target.getClass(), new InstanceCreator() {
+			public Object createInstance(Type t) {
+				// return the same object so that it is "updated"
+				return target;
+			}
+		}).create();
 		gson.fromJson(source.toString(), target.getClass());
 	}
 
@@ -79,13 +76,12 @@ public class MetaUpdater {
 	 * @return
 	 * @throws UpdaterException
 	 */
-	public <T> T updateObjectIncludingAttr(T target, JSONObject updatedObject,
-			int inclMetaAttr) throws UpdaterException {
+	public <T> T updateObjectIncludingAttr(T target, JSONObject updatedObject, int inclMetaAttr)
+			throws UpdaterException {
 		MetaModel mm = new MetaParser().getMetaAsObject(target);
 		JSONObject jo1 = new DataParser().parseSingleObject(target);
 
-		JSONObject result = updateObjectIncludingAttr(mm, jo1, updatedObject,
-				inclMetaAttr);
+		JSONObject result = updateObjectIncludingAttr(mm, jo1, updatedObject, inclMetaAttr);
 
 		T newOb = (T) new Gson().fromJson(result.toString(), target.getClass());
 		return newOb;
@@ -101,16 +97,14 @@ public class MetaUpdater {
 	 * @return
 	 * @throws UpdaterException
 	 */
-	public JSONObject updateObject(MetaModel mm, JSONObject target,
-			JSONObject updatedObject) throws UpdaterException {
+	public JSONObject updateObject(MetaModel mm, JSONObject target, JSONObject updatedObject) throws UpdaterException {
 		Iterator<String> keys = mm.getFIELDS_ALL().iterator();
 
 		// Iterate over attributes of original object
 		while (keys.hasNext()) {
 			String key = keys.next();
 			// Skip read only and id fields
-			if (!mm.getFIELDS_READ_ONLY().contains(key)
-					&& !mm.getTYPE_ID().equals(key)) {
+			if (!mm.getFIELDS_READ_ONLY().contains(key) && !mm.getTYPE_ID().equals(key)) {
 				try {
 					updateField(mm, target, updatedObject, key);
 				} catch (JSONException e) {
@@ -132,9 +126,8 @@ public class MetaUpdater {
 	 * @return
 	 * @throws UpdaterException
 	 */
-	public JSONObject updateObjectIncludingAttr(MetaModel mm,
-			JSONObject target, JSONObject updatedObject, int inclMetaAttr)
-			throws UpdaterException {
+	public JSONObject updateObjectIncludingAttr(MetaModel mm, JSONObject target, JSONObject updatedObject,
+			int inclMetaAttr) throws UpdaterException {
 		Iterator<String> keys = mm.getFIELDS_ALL().iterator();
 
 		// Iterate over attributes of original object
@@ -142,8 +135,7 @@ public class MetaUpdater {
 			String key = keys.next();
 
 			// Skip read only and id fields
-			if (!mm.getFIELDS_READ_ONLY().contains(key)
-					&& !mm.getTYPE_ID().equals(key)
+			if (!mm.getFIELDS_READ_ONLY().contains(key) && !mm.getTYPE_ID().equals(key)
 					&& ((MetaJSONTranslator.getMetaAttrTypeOfField(mm, key) & inclMetaAttr) != 0)) {
 				try {
 					updateField(mm, target, updatedObject, key);
@@ -155,19 +147,15 @@ public class MetaUpdater {
 		return target;
 	}
 
-	private void updateField(MetaModel mm, JSONObject target,
-			JSONObject updatedObject, String key) throws JSONException,
-			UpdaterException {
+	private void updateField(MetaModel mm, JSONObject target, JSONObject updatedObject, String key)
+			throws JSONException, UpdaterException {
 		boolean hasKey = updatedObject.has(key);
 		// Check fields NOT_NULL
 
 		if (mm.getFIELDS_NOT_NULL().contains(key)
-				&& (!hasKey || updatedObject.get(key) == null || updatedObject
-						.get(key).toString().equals(""))
-				&& (target.get(key) != null || !target.get(key).toString()
-						.equals(""))) {
-			throw new UpdaterException("Can not update field '" + key
-					+ "' of origin object by null ");
+				&& (!hasKey || updatedObject.get(key) == null || updatedObject.get(key).toString().equals(""))
+				&& (target.get(key) != null || !target.get(key).toString().equals(""))) {
+			throw new UpdaterException("Can not update field '" + key + "' of origin object by null ");
 		}
 
 		boolean complex = false;
@@ -179,11 +167,9 @@ public class MetaUpdater {
 			// just completely replaced, because it is not possible to
 			// difference between order of the objects
 			if (complexField.getATTRIBUTE_NAME().equals(key)
-					&& complexField.getATTRIBUTE_TYPE().equals(
-							MetaJSONTranslator.ATTRIBUTE_TYPE_SINGLE_STR)) {
+					&& complexField.getATTRIBUTE_TYPE().equals(MetaJSONTranslator.ATTRIBUTE_TYPE_SINGLE_STR)) {
 				complex = true;
-				JSONObject updatedValue = updateObject(
-						complexField.getMETA_DATA(), target.getJSONObject(key),
+				JSONObject updatedValue = updateObject(complexField.getMETA_DATA(), target.getJSONObject(key),
 						updatedObject.getJSONObject(key));
 				target.put(key, updatedValue);
 			}
@@ -193,14 +179,10 @@ public class MetaUpdater {
 			// check if field has a regex
 			for (Map<String, String> map : mm.getFIELDS_REGEX()) {
 				if (map.containsKey(key)) {
-					if (hasKey
-							&& !checkRegex(updatedObject.get(key).toString(),
-									map.get(key))) {
+					if (hasKey && !checkRegex(updatedObject.get(key).toString(), map.get(key))) {
 
-						throw new UpdaterException("Key '" + key
-								+ "' has a regex '" + map.get(key)
-								+ "' which is not matched by value '"
-								+ (hasKey ? updatedObject.get(key) : "") + "'.");
+						throw new UpdaterException("Key '" + key + "' has a regex '" + map.get(key)
+								+ "' which is not matched by value '" + (hasKey ? updatedObject.get(key) : "") + "'.");
 					}
 				}
 			}
@@ -215,8 +197,8 @@ public class MetaUpdater {
 	/**
 	 * This method checks a value by matching with given regex. The grammar of
 	 * regex can be read <a href=
-	 * "http://www.vogella.com/articles/JavaRegularExpressions/article.html"
-	 * >here</a>
+	 * "http://www.vogella.com/articles/JavaRegularExpressions/article.html" >
+	 * here</a>
 	 *
 	 * @param value
 	 * @param regex

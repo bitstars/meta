@@ -29,15 +29,13 @@ public class DataParser {
 	 * @author Ruslan
 	 *
 	 */
-	private static class CommonIxclusionPrivateStrategy implements
-			ExclusionStrategy {
+	private static class CommonIxclusionPrivateStrategy implements ExclusionStrategy {
 		int includedAttr;
 
 		public CommonIxclusionPrivateStrategy(int metaAttributes) {
 			includedAttr = metaAttributes;
 		}
 
-		@Override
 		public boolean shouldSkipField(FieldAttributes f) {
 			if (f.getAnnotation(MetaAttr.class) != null) {
 				MetaAttr attr = f.getAnnotation(MetaAttr.class);
@@ -50,10 +48,10 @@ public class DataParser {
 			return true;
 		}
 
-		@Override
 		public boolean shouldSkipClass(Class<?> clazz) {
 			return false;
 		}
+
 	}
 
 	/**
@@ -63,15 +61,13 @@ public class DataParser {
 	 * @author Ruslan
 	 *
 	 */
-	private static class CommonExclusionPrivateStrategy implements
-			ExclusionStrategy {
+	private static class CommonExclusionPrivateStrategy implements ExclusionStrategy {
 		int excludedAttr;
 
 		public CommonExclusionPrivateStrategy(int metaAttributes) {
 			excludedAttr = metaAttributes;
 		}
 
-		@Override
 		public boolean shouldSkipField(FieldAttributes f) {
 			if (f.getAnnotation(MetaAttr.class) != null) {
 				MetaAttr attr = f.getAnnotation(MetaAttr.class);
@@ -84,7 +80,6 @@ public class DataParser {
 			return false;
 		}
 
-		@Override
 		public boolean shouldSkipClass(Class<?> clazz) {
 			return false;
 		}
@@ -112,10 +107,9 @@ public class DataParser {
 	 *            - e.g. MetaAttr.FIELDS_READ_ONLY + MetaAttr.PRIVATE
 	 * @return
 	 */
-	public JSONObject parseSingleObjectIncludingMetaAttrs(Object object,
-			int metaAttributes) {
-		Gson gsonParser = new GsonBuilder().setExclusionStrategies(
-				new CommonIxclusionPrivateStrategy(metaAttributes)).create();
+	public JSONObject parseSingleObjectIncludingMetaAttrs(Object object, int metaAttributes) {
+		Gson gsonParser = new GsonBuilder().setExclusionStrategies(new CommonIxclusionPrivateStrategy(metaAttributes))
+				.create();
 		try {
 			return new JSONObject(gsonParser.toJson(object));
 		} catch (JSONException e) {
@@ -131,10 +125,9 @@ public class DataParser {
 	 *            - e.g. MetaAttr.FIELDS_READ_ONLY + MetaAttr.PRIVATE
 	 * @return
 	 */
-	public JSONObject parseSingleObjectExcludingMetaAttrs(Object object,
-			int metaAttributes) {
-		Gson gsonParser = new GsonBuilder().setExclusionStrategies(
-				new CommonExclusionPrivateStrategy(metaAttributes)).create();
+	public JSONObject parseSingleObjectExcludingMetaAttrs(Object object, int metaAttributes) {
+		Gson gsonParser = new GsonBuilder().setExclusionStrategies(new CommonExclusionPrivateStrategy(metaAttributes))
+				.create();
 		try {
 			return new JSONObject(gsonParser.toJson(object));
 		} catch (JSONException e) {
@@ -164,10 +157,9 @@ public class DataParser {
 	 *            - e.g. MetaAttr.FIELDS_READ_ONLY + MetaAttr.PRIVATE
 	 * @return
 	 */
-	public JSONArray parseCollectionObjectIncludingMetaAttrs(Object object,
-			int metaAttributes) {
-		Gson gsonParser = new GsonBuilder().setExclusionStrategies(
-				new CommonIxclusionPrivateStrategy(metaAttributes)).create();
+	public JSONArray parseCollectionObjectIncludingMetaAttrs(Object object, int metaAttributes) {
+		Gson gsonParser = new GsonBuilder().setExclusionStrategies(new CommonIxclusionPrivateStrategy(metaAttributes))
+				.create();
 		try {
 			return new JSONArray(gsonParser.toJson(object));
 		} catch (JSONException e) {
@@ -183,10 +175,9 @@ public class DataParser {
 	 *            - e.g. MetaAttr.FIELDS_READ_ONLY + MetaAttr.PRIVATE
 	 * @return
 	 */
-	public JSONArray parseCollectionObjectExcludingMetaAttrs(Object object,
-			int metaAttributes) {
-		Gson gsonParser = new GsonBuilder().setExclusionStrategies(
-				new CommonExclusionPrivateStrategy(metaAttributes)).create();
+	public JSONArray parseCollectionObjectExcludingMetaAttrs(Object object, int metaAttributes) {
+		Gson gsonParser = new GsonBuilder().setExclusionStrategies(new CommonExclusionPrivateStrategy(metaAttributes))
+				.create();
 		try {
 			return new JSONArray(gsonParser.toJson(object));
 		} catch (JSONException e) {
