@@ -1,0 +1,11 @@
+apply plugin: 'java'
+
+dependencies {
+    compile 'com.google.code.gson:gson:2.3'
+    compile 'org.apache.commons:commons-lang3:3.2'
+    compile 'org.json:json:20140107'
+
+    // Tests
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.jmock:jmock-junit4:2.8.1'
+}
