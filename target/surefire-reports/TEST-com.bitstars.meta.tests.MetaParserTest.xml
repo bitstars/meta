@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite failures="0" time="0.007" errors="0" skipped="0" tests="6" name="com.bitstars.meta.tests.MetaParserTest">
+<testsuite failures="0" time="0.001" errors="0" skipped="0" tests="6" name="com.bitstars.meta.tests.MetaParserTest">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="C:\Program Files (x86)\Java\jdk1.7.0_79\jre\bin"/>
@@ -28,12 +28,13 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="user.variant" value=""/>
     <property name="os.name" value="Windows 8.1"/>
-    <property name="classworlds.conf" value="C:\Entwicklung\armrocloud\.metadata\.plugins\org.eclipse.m2e.launching\launches\m2conf8730850090863414924.tmp"/>
+    <property name="classworlds.conf" value="C:\Program Files (x86)\Java\apache-maven-3.3.3\bin\m2.conf"/>
     <property name="sun.jnu.encoding" value="Cp1252"/>
-    <property name="java.library.path" value="C:\Program Files (x86)\Java\jdk1.7.0_79\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:/Program Files (x86)/Java/jdk1.7.0_79/bin/../jre/bin/client;C:/Program Files (x86)/Java/jdk1.7.0_79/bin/../jre/bin;C:/Program Files (x86)/Java/jdk1.7.0_79/bin/../jre/lib/i386;C:\Program Files (x86)\Java\jdk1.7.0_79\bin;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files\Common Files\Autodesk Shared\;C:\Program Files (x86)\Autodesk\Backburner\;C:\Program Files (x86)\nodejs\;C:\Program Files (x86)\Git\bin;C:\Program Files (x86)\Skype\Phone\;C:\Program Files (x86)\Java\jdk1.7.0_79\bin;C:\Program Files (x86)\Java\apache-maven-3.3.3\bin;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Ruby21\bin;C:\Users\RU$$\AppData\Roaming\npm;C:\Entwicklung\eclipse-jee-mars-R-win32\eclipse;;."/>
+    <property name="java.library.path" value="C:\Program Files (x86)\Java\jdk1.7.0_79\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Program Files (x86)\Java\jdk1.7.0_79\bin;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files\Common Files\Autodesk Shared\;C:\Program Files (x86)\Autodesk\Backburner\;C:\Program Files (x86)\nodejs\;C:\Program Files (x86)\Git\bin;C:\Program Files (x86)\Skype\Phone\;C:\Program Files (x86)\Java\jdk1.7.0_79\bin;C:\Program Files (x86)\Java\apache-maven-3.3.3\bin;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Ruby21\bin;C:\Users\RU$$\AppData\Roaming\npm;."/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.class.version" value="51.0"/>
     <property name="sun.management.compiler" value="HotSpot Client Compiler"/>
+    <property name="maven.repo.local" value="C:\Users\RU$$\.m2\repository"/>
     <property name="os.version" value="6.3"/>
     <property name="user.home" value="C:\Users\RU$$"/>
     <property name="user.timezone" value="Europe/Berlin"/>
@@ -41,11 +42,11 @@
     <property name="java.specification.version" value="1.7"/>
     <property name="file.encoding" value="Cp1252"/>
     <property name="user.name" value="RU$$"/>
-    <property name="java.class.path" value="/C:/Entwicklung/eclipse-jee-mars-R-win32/eclipse/plugins/org.eclipse.m2e.maven.runtime_1.6.0.20150526-2031/jars/plexus-classworlds-2.5.2.jar"/>
+    <property name="java.class.path" value="C:\Program Files (x86)\Java\apache-maven-3.3.3\boot\plexus-classworlds-2.5.2.jar"/>
     <property name="java.vm.specification.version" value="1.7"/>
     <property name="sun.arch.data.model" value="32"/>
     <property name="java.home" value="C:\Program Files (x86)\Java\jdk1.7.0_79\jre"/>
-    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher -B install"/>
+    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher -D maven.repo.local=C:\Users\RU$$\.m2\repository -s C:\Users\RU$$\AppData\Local\Temp\release-settings4399677734941470698.xml clean verify"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
     <property name="user.language" value="en"/>
     <property name="user.language.format" value="de"/>
@@ -55,7 +56,7 @@
     <property name="java.ext.dirs" value="C:\Program Files (x86)\Java\jdk1.7.0_79\jre\lib\ext;C:\WINDOWS\Sun\Java\lib\ext"/>
     <property name="sun.boot.class.path" value="C:\Program Files (x86)\Java\jdk1.7.0_79\jre\lib\resources.jar;C:\Program Files (x86)\Java\jdk1.7.0_79\jre\lib\rt.jar;C:\Program Files (x86)\Java\jdk1.7.0_79\jre\lib\sunrsasign.jar;C:\Program Files (x86)\Java\jdk1.7.0_79\jre\lib\jsse.jar;C:\Program Files (x86)\Java\jdk1.7.0_79\jre\lib\jce.jar;C:\Program Files (x86)\Java\jdk1.7.0_79\jre\lib\charsets.jar;C:\Program Files (x86)\Java\jdk1.7.0_79\jre\lib\jfr.jar;C:\Program Files (x86)\Java\jdk1.7.0_79\jre\classes"/>
     <property name="java.vendor" value="Oracle Corporation"/>
-    <property name="maven.home" value="C:\Entwicklung\workspaces\meta\EMBEDDED"/>
+    <property name="maven.home" value="C:\Program Files (x86)\Java\apache-maven-3.3.3"/>
     <property name="file.separator" value="\"/>
     <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -65,8 +66,8 @@
   </properties>
   <testcase time="0" classname="com.bitstars.meta.tests.MetaParserTest" name="complextObjectAsObjectTest"/>
   <testcase time="0" classname="com.bitstars.meta.tests.MetaParserTest" name="simpleObjectAsObjectTest"/>
-  <testcase time="0.004" classname="com.bitstars.meta.tests.MetaParserTest" name="subClassOfSimpleObjectAsObjectTest"/>
-  <testcase time="0.001" classname="com.bitstars.meta.tests.MetaParserTest" name="subClassOfSimpleObjectAsJSONTest"/>
+  <testcase time="0" classname="com.bitstars.meta.tests.MetaParserTest" name="subClassOfSimpleObjectAsObjectTest"/>
+  <testcase time="0" classname="com.bitstars.meta.tests.MetaParserTest" name="subClassOfSimpleObjectAsJSONTest"/>
   <testcase time="0" classname="com.bitstars.meta.tests.MetaParserTest" name="simpleObjectAsJSONTest"/>
-  <testcase time="0.002" classname="com.bitstars.meta.tests.MetaParserTest" name="complextObjectAsJSONTest"/>
+  <testcase time="0.001" classname="com.bitstars.meta.tests.MetaParserTest" name="complextObjectAsJSONTest"/>
 </testsuite>

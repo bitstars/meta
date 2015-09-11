@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.bitstars</groupId>
   <artifactId>meta</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.2-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>meta</name>
@@ -39,9 +39,9 @@
   </dependencies>
   
   <scm>
-	<connection>scm:git:git@github.com:RUSSCITY/meta.git</connection>
-	<url>scm:git:git@github.com:RUSSCITY/meta.git</url>
-	<developerConnection>scm:git:git@github.com:RUSSCITY/meta.git</developerConnection>
+	<connection>scm:git:git@github.com:RUSSCITY/meta</connection>
+	<url>scm:git:git@github.com:RUSSCITY/meta</url>
+	<developerConnection>scm:git:git@github.com:RUSSCITY/meta</developerConnection>
   </scm>
   
   <build>
